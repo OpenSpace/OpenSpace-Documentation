@@ -5,39 +5,51 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 
 const drawerWidth = 240;
 
-export default function SideBar() {
+export default function SideBar({data, setSelectedItem}) {
+  const renderTree = (nodes) => {
+    if(Array.isArray(nodes)) {
+      return nodes.map((node) => renderTree(node));
+    }
+    else if (typeof nodes === 'object'){
+      const identifier = nodes.identifier ?  nodes.identifier : nodes?.id;
+      const label = nodes.name ?? identifier;
+      const nextData = nodes.data ?? nodes.entries;
+      return identifier && <TreeItem key={identifier} nodeId={identifier} label={label} >
+      {Array.isArray(nextData)
+        ? nextData.map((node) => renderTree(node))
+        : null}
+    </TreeItem>
+    }
+    else {
+      return <Typography onClick={() => setSelectedItem(nodes)}>{nodes}</Typography>
+    }
+  }
+
   return (
-      <Drawer
-        variant="permanent"
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
-        }}
-      >
-        <Toolbar />
-        <Box sx={{ overflow: 'auto', paddingTop: '20px'}}>
-          <TreeView
-            aria-label="file system navigator"
-            defaultCollapseIcon={<ExpandMoreIcon />}
-            defaultExpandIcon={<ChevronRightIcon />}
-            sx={{ height: '100%', flexGrow: 1, maxWidth: '100%', overflowY: 'auto' }}
-          >
-          <TreeItem nodeId="1" label="Applications">
-            <TreeItem nodeId="2" label="Calendar" />
-          </TreeItem>
-          <TreeItem nodeId="5" label="Documents">
-            <TreeItem nodeId="10" label="OSS" />
-            <TreeItem nodeId="6" label="MUI">
-              <TreeItem nodeId="8" label="index.js" />
-            </TreeItem>
-          </TreeItem>
+    <Drawer
+      variant="permanent"
+      sx={{
+        width: drawerWidth,
+        flexShrink: 0,
+        [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+      }}
+    >
+      <Toolbar />
+      <Box sx={{ overflow: 'auto', paddingTop: '20px'}}>
+        <TreeView
+          aria-label="file system navigator"
+          defaultCollapseIcon={<ExpandMoreIcon />}
+          defaultExpandIcon={<ChevronRightIcon />}
+          sx={{ height: '100%', flexGrow: 1, maxWidth: '100%', overflowY: 'auto' }}
+        >
+          {renderTree(data)}
         </TreeView>
-        </Box>
-      </Drawer>
+      </Box>
+    </Drawer>
   );
 }
   
