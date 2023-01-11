@@ -2,12 +2,10 @@ import TreeView from '@mui/lab/TreeView';
 import TreeItem from '@mui/lab/TreeItem';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import Box from '@mui/material/Box';
 import ResizeableDrawer from './ResizeableDrawer';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
-const drawerWidth = 240;
 
 export default function SideBar({ data, setSelectedItem }) {
   
@@ -20,7 +18,7 @@ export default function SideBar({ data, setSelectedItem }) {
       const label = data?.name ?? identifier;
       const nestedData = data.data;
       return identifier && (
-        <TreeItem key={identifier} nodeId={identifier} label={label} >
+        <TreeItem key={identifier} nodeId={identifier} label={label} onClick={() => setSelectedItem(data)}>
           {Array.isArray(nestedData) && nestedData.map((item) => renderTree(item))}
         </TreeItem>
       );
@@ -31,25 +29,16 @@ export default function SideBar({ data, setSelectedItem }) {
   }
 
   return (
-    <ResizeableDrawer
-      variant="permanent"
-      sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
-      }}
-    >
+    <ResizeableDrawer>
       <Toolbar />
-      <Box sx={{ overflow: 'auto', paddingTop: '20px'}}>
         <TreeView
           aria-label="file system navigator"
           defaultCollapseIcon={<ExpandMoreIcon />}
           defaultExpandIcon={<ChevronRightIcon />}
-          sx={{ height: '100%', flexGrow: 1, maxWidth: '100%', overflowY: 'auto' }}
+          sx={{ height: '100%', flexGrow: 1, maxWidth: '100%', overflowY: 'auto', paddingTop : '20px' }}
         >
           {renderTree(data)}
         </TreeView>
-      </Box>
     </ResizeableDrawer>
   );
 }
