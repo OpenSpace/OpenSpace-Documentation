@@ -9,23 +9,24 @@ import Typography from '@mui/material/Typography';
 
 const drawerWidth = 240;
 
-export default function SideBar({data, setSelectedItem}) {
-  const renderTree = (nodes) => {
-    if(Array.isArray(nodes)) {
-      return nodes.map((node) => renderTree(node));
+export default function SideBar({ data, setSelectedItem }) {
+  
+  const renderTree = (data) => {
+    if (Array.isArray(data)) {
+      return data.map((item) => renderTree(item));
     }
-    else if (typeof nodes === 'object'){
-      const identifier = nodes.identifier ?  nodes.identifier : nodes?.id;
-      const label = nodes.name ?? identifier;
-      const nextData = nodes.data ?? nodes.entries;
-      return identifier && <TreeItem key={identifier} nodeId={identifier} label={label} >
-      {Array.isArray(nextData)
-        ? nextData.map((node) => renderTree(node))
-        : null}
-    </TreeItem>
+    else if (typeof data === 'object') {
+      const identifier = data?.identifier ?? data?.name;
+      const label = data?.name ?? identifier;
+      const nestedData = data.data;
+      return identifier && (
+        <TreeItem key={identifier} nodeId={identifier} label={label} >
+          {Array.isArray(nestedData) && nestedData.map((item) => renderTree(item))}
+        </TreeItem>
+      );
     }
     else {
-      return <Typography onClick={() => setSelectedItem(nodes)}>{nodes}</Typography>
+      return <Typography onClick={() => setSelectedItem(data)}>{data}</Typography>
     }
   }
 
