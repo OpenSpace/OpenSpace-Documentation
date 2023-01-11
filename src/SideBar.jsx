@@ -3,7 +3,7 @@ import TreeItem from '@mui/lab/TreeItem';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
+import ResizeableDrawer from './ResizeableDrawer';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
@@ -31,7 +31,7 @@ export default function SideBar({ data, setSelectedItem }) {
   }
 
   return (
-    <Drawer
+    <ResizeableDrawer
       variant="permanent"
       sx={{
         width: drawerWidth,
@@ -50,7 +50,7 @@ export default function SideBar({ data, setSelectedItem }) {
           {renderTree(data)}
         </TreeView>
       </Box>
-    </Drawer>
+    </ResizeableDrawer>
   );
 }
   
