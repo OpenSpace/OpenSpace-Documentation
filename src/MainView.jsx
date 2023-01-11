@@ -3,7 +3,13 @@ import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
 import Table from './Table';
 
-export default function MainView({ data }) {
+function FunctionTable({functions, setSelectedItem}) {
+  return (
+    <Table headers={["Function Name", "Description"]} rows={functions} setSelectedItem={setSelectedItem} />
+  );
+}
+
+export default function MainView({ data, setSelectedItem }) {
   return (
     <Box
       component="main"
@@ -13,9 +19,7 @@ export default function MainView({ data }) {
         <Typography variant="h4">
         { data?.name }
         </Typography>
-        { data?.data && <Table rows={data.data} />}
-        { data?.properties && <Table rows={data.properties} />}
-        { data?.propertyOwners && <Table rows={data.propertyOwners} />}
+        { data?.functions && <FunctionTable functions={data.functions} setSelectedItem={setSelectedItem}/>}
       </Box>
   );
 }
