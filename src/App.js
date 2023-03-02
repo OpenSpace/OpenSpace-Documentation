@@ -5,7 +5,7 @@ import SideBar from './SideBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import MainView from './MainView';
-import { data } from "./data.js";
+import { data } from "./documentationData.js";
 
 function App() {
   const [selectedItem, setSelectedItem] = React.useState(null);
@@ -22,6 +22,7 @@ function App() {
       <Header search={search} />
       <SideBar data={data.documentation} setSelectedItem={setSelectedItem}/>
       <MainView data={selectedItem}/>
+      <MainView data={selectedItem} setSelectedItem={setSelectedItem} />
     </Box>
   );
 }
