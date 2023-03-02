@@ -11,7 +11,6 @@ import logo from './img/logo.png'; // Tell webpack this JS file uses this image
 import { Popover } from '@mui/material';
 import { Divider } from '@mui/material';
 import { ObjectWordBeginningSubstring } from './StringMatchers';
-import './Header.css';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
