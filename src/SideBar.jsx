@@ -5,17 +5,13 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ResizeableDrawer from './ResizeableDrawer';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-
+import { Divider } from '@mui/material';
 
 export default function SideBar({ data, setSelectedItem }) {
-  
   const renderTree = (data) => {
-    if (Array.isArray(data)) {
-      return data.map((item) => renderTree(item));
-    }
-    else if (typeof data === 'object') {
-      const identifier = data?.identifier ?? data?.name;
-      const label = data?.name ?? identifier;
+    const identifier = data?.identifier ?? data?.name;
+    if (typeof data === 'object') {
+      const label = data?.name;
       const nestedData = data.data;
       return identifier && (
         <TreeItem key={identifier} nodeId={identifier} label={label} onClick={() => setSelectedItem(data)}>
@@ -24,7 +20,7 @@ export default function SideBar({ data, setSelectedItem }) {
       );
     }
     else {
-      return <Typography onClick={() => setSelectedItem(data)}>{data}</Typography>
+      return <Typography key={identifier} onClick={() => setSelectedItem(data)}>{data}</Typography>
     }
   }
 
@@ -37,7 +33,17 @@ export default function SideBar({ data, setSelectedItem }) {
           defaultExpandIcon={<ChevronRightIcon />}
           sx={{ height: '100%', flexGrow: 1, maxWidth: '100%', overflowY: 'auto', paddingTop : '20px' }}
         >
-          {renderTree(data)}
+        {data.map((item, index) => {
+          // Add a divider after the first two items
+          if (index === 2) {
+            return (
+              <>
+                <Divider key={"divider"} />
+                {renderTree(item)}
+              </>);
+          }
+          return renderTree(item);
+        })}
         </TreeView>
     </ResizeableDrawer>
   );
