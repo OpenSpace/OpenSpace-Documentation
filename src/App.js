@@ -9,19 +9,24 @@ import { data } from "./documentationData.js";
 
 function App() {
   const [selectedItem, setSelectedItem] = React.useState(null);
+  const [searchText, setSearchText] = React.useState(null);
 
   function search(string) {
-    console.log(string)
     setSelectedItem(data.documentation.filter(item => item.name.includes(string.target.value)));
-    console.log(selectedItem)
   }
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <Header search={search} />
+      <Header
+        search={search}
+        searchText={searchText}
+        setSearchText={setSearchText}
+        data={data.documentation}
+        setSelectedItem={setSelectedItem}
+        selectedItem={selectedItem}
+      />
       <SideBar data={data.documentation} setSelectedItem={setSelectedItem}/>
-      <MainView data={selectedItem}/>
       <MainView data={selectedItem} setSelectedItem={setSelectedItem} />
     </Box>
   );
