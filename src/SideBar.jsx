@@ -7,14 +7,18 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Divider } from '@mui/material';
 
-export default function SideBar({ data, setSelectedItem }) {
-  const renderTree = (data) => {
+export default function SideBar({ data, setSelectedItem, setBreadcrumbs }) {
+  function renderTree(data) {
     const identifier = data?.identifier ?? data?.name;
     if (typeof data === 'object') {
       const label = data?.name;
       const nestedData = data.data;
       return identifier && (
-        <TreeItem key={identifier} nodeId={identifier} label={label} onClick={() => setSelectedItem(data)}>
+        <TreeItem key={identifier} nodeId={identifier} label={label} onClick={() => {
+          setSelectedItem(data)
+          setBreadcrumbs(data);
+        }
+        }>
           {Array.isArray(nestedData) && nestedData.map((item) => renderTree(item))}
         </TreeItem>
       );

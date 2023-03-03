@@ -9,6 +9,7 @@ import { data } from "./documentationData.js";
 
 function App() {
   const [selectedItem, setSelectedItem] = React.useState(null);
+  const [breadcrumbs, setBreadcrumbs] = React.useState(null);
   const [searchText, setSearchText] = React.useState(null);
 
   function search(string) {
@@ -26,7 +27,7 @@ function App() {
         setSelectedItem={setSelectedItem}
         selectedItem={selectedItem}
       />
-      <SideBar data={data.documentation} setSelectedItem={setSelectedItem}/>
+      <SideBar data={data.documentation} setSelectedItem={setSelectedItem} setBreadcrumbs={setBreadcrumbs}/>
       <MainView data={selectedItem} setSelectedItem={setSelectedItem} />
     </Box>
   );

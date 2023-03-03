@@ -2,6 +2,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
 import Table from './Table';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Link from '@mui/material/Link';
 
 function Function({data}) {
   return (
@@ -111,10 +113,23 @@ export default function MainView({ data, setSelectedItem }) {
       component="main"
       sx={{ flexGrow: 1000,  p: 3 }}
       >
-        <Toolbar />
+      <Toolbar />
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link underline="hover" color="inherit" href="/">
+            MUI
+          </Link>
+          <Link
+            underline="hover"
+            color="inherit"
+            href="/material-ui/getting-started/installation/"
+          >
+            Core
+          </Link>
+          <Typography color="text.primary">Breadcrumbs</Typography>
+        </Breadcrumbs>
         <Typography variant="h4">
         { data?.name }
-        </Typography>
+      </Typography>
         { data?.functions && <Library data={data} setSelectedItem={setSelectedItem} /> }
         { data?.arguments && <Function data={data} />}
         { data?.properties?.length > 0 && <Properties data={data.properties} />}
