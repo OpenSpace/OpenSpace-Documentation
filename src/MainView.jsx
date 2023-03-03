@@ -4,6 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Table from './Table';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
+import TabsRouter from './TabsRouter';
 
 function Function({data}) {
   return (
@@ -130,6 +131,7 @@ export default function MainView({ data, setSelectedItem }) {
         <Typography variant="h4">
         { data?.name }
       </Typography>
+      <TabsRouter />
         { data?.functions && <Library data={data} setSelectedItem={setSelectedItem} /> }
         { data?.arguments && <Function data={data} />}
         { data?.properties?.length > 0 && <Properties data={data.properties} />}

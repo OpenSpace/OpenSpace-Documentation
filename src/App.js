@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import MainView from './MainView';
 import { data } from "./documentationData.js";
+import TabsRouter from './TabsRouter';
 
 function App() {
   const [selectedItem, setSelectedItem] = React.useState(null);
@@ -15,7 +16,7 @@ function App() {
   function search(string) {
     setSelectedItem(data.documentation.filter(item => item.name.includes(string.target.value)));
   }
-
+  return <TabsRouter />;
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
