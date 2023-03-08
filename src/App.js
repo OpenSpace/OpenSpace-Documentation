@@ -10,13 +10,11 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { data } from "./documentationData.js";
 import IconButton from '@mui/material/IconButton';
-import useMediaQuery from '@mui/material/useMediaQuery';
-
-const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
+import { useColorMode } from './ColorModeContext';
 
 function ToggleMode() {
   const theme = useTheme();
-  const colorMode = React.useContext(ColorModeContext);
+  const [mode, toggleMode] = useColorMode();
   const title = theme.palette.mode.charAt(0).toUpperCase() + theme.palette.mode.slice(1);
 
   return (
@@ -29,7 +27,7 @@ function ToggleMode() {
       }}
     >
       {title} mode
-      <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+      <IconButton sx={{ ml: 1 }} onClick={toggleMode} color="inherit">
         {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
       </IconButton>
     </Box>
@@ -39,21 +37,11 @@ function App() {
   const [selectedItem, setSelectedItem] = React.useState(null);
   const [breadcrumbs, setBreadcrumbs] = React.useState(null);
   const [searchText, setSearchText] = React.useState(null);
-  const [mode, setMode] = React.useState('dark');
-  const initialMode = useMediaQuery('(prefers-color-scheme: dark)', { noSsr: true }) ? 'dark' : 'light';
+  const [mode, toggleMode] = useColorMode();
 
-  React.useEffect(() => {
-    setMode(initialMode);
-  }, []); 
-  
-  const colorMode = React.useMemo(
-    () => ({
-      toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-      },
-    }),
-    [],
-  );
+  function search(string) {
+    setSelectedItem(data.documentation.filter(item => item.name.includes(string.target.value)));
+  }
 
   const theme = React.useMemo(
     () =>
@@ -75,12 +63,7 @@ function App() {
     [mode],
   );
 
-  function search(string) {
-    setSelectedItem(data.documentation.filter(item => item.name.includes(string.target.value)));
-  }
-
   return (
-    <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
           <Box sx={{ display: "flex" }}>
@@ -98,7 +81,6 @@ function App() {
           <MainView data={selectedItem} setSelectedItem={setSelectedItem} />
         </Box>
       </ThemeProvider>
-    </ColorModeContext.Provider>
   );
 }
 
