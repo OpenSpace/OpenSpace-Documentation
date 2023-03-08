@@ -61,6 +61,16 @@ function App() {
         palette: {
           mode,
         },
+        components: {
+          MuiAppBar: {
+            styleOverrides: {
+              root: {
+                // Some CSS
+                backgroundColor: mode === 'light' && '#06708f'
+              }
+            }
+          }
+        }
       }),
     [mode],
   );
