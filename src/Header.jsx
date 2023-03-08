@@ -54,7 +54,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-function Header({ search, searchText, setSearchText, data, selectedItem, setSelectedItem }) { 
+function Header({ search, searchText, setSearchText, data, selectedItem, setSelectedItem, children }) { 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const searchResultsAll = React.useRef([]);
   const searchResultsSelected = React.useRef([]);
@@ -115,6 +115,7 @@ function Header({ search, searchText, setSearchText, data, selectedItem, setSele
           >
             Documentation
           </Typography>
+          { children }
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
