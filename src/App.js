@@ -12,6 +12,8 @@ import { data } from "./documentationData.js";
 import IconButton from '@mui/material/IconButton';
 import { useColorMode } from './ColorModeContext';
 
+const HeaderColor = '#3d3d3d';
+
 function ToggleMode() {
   const theme = useTheme();
   const [mode, toggleMode] = useColorMode();
@@ -76,7 +78,7 @@ function App() {
             styleOverrides: {
               root: {
                 // Some CSS
-                backgroundColor: mode === 'light' && '#06708f'
+                backgroundColor: mode === 'light' && HeaderColor
               }
             }
           }
