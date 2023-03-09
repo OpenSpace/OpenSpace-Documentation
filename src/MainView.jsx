@@ -108,7 +108,12 @@ function Profile({ data }) {
       )
 }
 
-export default function MainView({ data, setSelectedItem }) {
+export default function MainView({ data, setSelectedItem, breadcrumbs, selectBreadcrumb }) {
+
+  function select(data) {
+    setSelectedItem(data, [...breadcrumbs, data.name]);
+  }
+
   return (
     <Box
       component="main"
@@ -116,29 +121,37 @@ export default function MainView({ data, setSelectedItem }) {
       >
       <Toolbar />
         <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/">
-            MUI
-          </Link>
-          <Link
-            underline="hover"
-            color="inherit"
-            href="/material-ui/getting-started/installation/"
-          >
-            Core
-          </Link>
-          <Typography color="text.primary">Breadcrumbs</Typography>
+        {breadcrumbs.map((crumb, index) => {
+          if (index === breadcrumbs.length - 1) {
+            return <Typography color="text.primary">{crumb}</Typography>;
+          }
+          else {
+            return (
+              <Link
+                component="button"
+                variant="body1"
+                onClick={() => {
+                  selectBreadcrumb(breadcrumbs.slice(0, index + 1));
+                }}
+                underline="hover" 
+                color="inherit"
+              >
+                {crumb}
+              </Link>
+            );
+          }
+        })}
         </Breadcrumbs>
         <Typography variant="h4">
         { data?.name }
       </Typography>
-      <TabsRouter />
-        { data?.functions && <Library data={data} setSelectedItem={setSelectedItem} /> }
+        { data?.functions && <Library data={data} setSelectedItem={select} /> }
         { data?.arguments && <Function data={data} />}
         { data?.properties?.length > 0 && <Properties data={data.properties} />}
-        { data?.propertyOwners?.length > 0 && <PropertyOwners data={data.propertyOwners} setSelectedItem={setSelectedItem} />}
-        { data?.classes?.length > 0 && <Classes data={data.classes} setSelectedItem={setSelectedItem} />}
-        { data?.members?.length > 0 && <Members data={data.members} setSelectedItem={setSelectedItem} />}
-        { data?.licenses && <License data={data.licenses} setSelectedItem={setSelectedItem} />}
+        { data?.propertyOwners?.length > 0 && <PropertyOwners data={data.propertyOwners} setSelectedItem={select} />}
+        { data?.classes?.length > 0 && <Classes data={data.classes} setSelectedItem={select} />}
+        { data?.members?.length > 0 && <Members data={data.members} setSelectedItem={select} />}
+        { data?.licenses && <License data={data.licenses} setSelectedItem={select} />}
         { data?.assets && <LicenseAsset data={data.assets} />}
         { data?.author && <Profile data={data} />}
       </Box>

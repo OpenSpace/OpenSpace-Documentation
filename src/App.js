@@ -35,9 +35,31 @@ function ToggleMode() {
 }
 function App() {
   const [selectedItem, setSelectedItem] = React.useState(null);
-  const [breadcrumbs, setBreadcrumbs] = React.useState(null);
+  const [breadcrumbs, setBreadcrumbs] = React.useState([]);
   const [searchText, setSearchText] = React.useState(null);
   const [mode, toggleMode] = useColorMode();
+
+  function select(data, parents) {
+    setBreadcrumbs(parents);
+    setSelectedItem(data);
+  }
+
+  function selectBreadcrumb(crumbs) {
+    let found = undefined;
+    crumbs.map(crumb => {
+      if (!found) {
+        found = data.documentation;
+      }
+      if (Array.isArray(found)) {
+        found = found.find(element => element.name === crumb);
+      }
+      else if (typeof found === 'object') {
+        found = found.data.find(element => element.name === crumb);
+      }
+    });
+    setSelectedItem(found);
+    setBreadcrumbs(crumbs);
+  }
 
   function search(string) {
     setSelectedItem(data.documentation.filter(item => item.name.includes(string.target.value)));
@@ -77,8 +99,8 @@ function App() {
           >
             <ToggleMode />
           </Header>
-          <SideBar data={data.documentation} setSelectedItem={setSelectedItem} setBreadcrumbs={setBreadcrumbs}/>
-          <MainView data={selectedItem} setSelectedItem={setSelectedItem} />
+          <SideBar data={data.documentation} setSelectedItem={select} />
+          <MainView data={selectedItem} setSelectedItem={select} breadcrumbs={breadcrumbs} selectBreadcrumb={selectBreadcrumb} />
         </Box>
       </ThemeProvider>
   );

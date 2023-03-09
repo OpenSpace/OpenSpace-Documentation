@@ -7,25 +7,21 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Divider } from '@mui/material';
 
-export default function SideBar({ data, setSelectedItem, setBreadcrumbs }) {
-  function renderTree(data) {
+export default function SideBar({ data, setSelectedItem }) {
+
+  function renderTree(data, parents) {
     const identifier = data?.identifier ?? data?.name;
-    if (typeof data === 'object') {
       const label = data?.name;
       const nestedData = data.data;
       return identifier && (
         <TreeItem key={identifier} nodeId={identifier} label={label} onClick={() => {
-          setSelectedItem(data)
-          setBreadcrumbs(data);
+          setSelectedItem(data, [...parents, label])
         }
         }>
-          {Array.isArray(nestedData) && nestedData.map((item) => renderTree(item))}
+          {Array.isArray(nestedData) && nestedData.map((item) => renderTree(item, [...parents, label]))}
         </TreeItem>
       );
-    }
-    else {
-      return <Typography key={identifier} onClick={() => setSelectedItem(data)}>{data}</Typography>
-    }
+
   }
 
   return (
@@ -43,10 +39,10 @@ export default function SideBar({ data, setSelectedItem, setBreadcrumbs }) {
             return (
               <>
                 <Divider key={"divider"} />
-                {renderTree(item)}
+                {renderTree(item, [])}
               </>);
           }
-          return renderTree(item);
+          return renderTree(item, []);
         })}
         </TreeView>
     </ResizeableDrawer>
