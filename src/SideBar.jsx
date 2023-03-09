@@ -35,7 +35,7 @@ export default function SideBar({ data, setSelectedItem, setBreadcrumbs }) {
           aria-label="file system navigator"
           defaultCollapseIcon={<ExpandMoreIcon />}
           defaultExpandIcon={<ChevronRightIcon />}
-          sx={{ height: '100%', flexGrow: 1, maxWidth: '100%', overflowY: 'auto', paddingTop : '20px' }}
+          sx={{ height: '100%', flexGrow: 1, maxWidth: '100%', overflowY: 'auto', paddingTop : '20px', marginRight: '3px' }}
         >
         {data.map((item, index) => {
           // Add a divider after the first two items
