@@ -1,7 +1,8 @@
 import React, { useCallback } from "react";
 import Drawer from '@mui/material/Drawer';
 import { useColorMode } from "./ColorModeContext";
-export const defaultDrawerWidth = 240;
+
+export const defaultDrawerWidth = 260;
 const minDrawerWidth = 100;
 const maxDrawerWidth = 1000;
 
