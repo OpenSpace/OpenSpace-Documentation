@@ -4,7 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Table from './Table';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
-import TabsRouter from './TabsRouter';
+import Footer from './Footer';
 
 function Function({data}) {
   return (
@@ -117,34 +117,47 @@ export default function MainView({ data, setSelectedItem, breadcrumbs, selectBre
   return (
     <Box
       component="main"
-      sx={{ flexGrow: 1000,  p: 3 }}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        flexGrow: 1000,
+        p: 3,
+        minHeight: '100vh',
+        justifyContent: 'space-between',
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column'
+        }}
       >
       <Toolbar />
         <Breadcrumbs aria-label="breadcrumb">
-        {breadcrumbs.map((crumb, index) => {
-          if (index === breadcrumbs.length - 1) {
-            return <Typography color="text.primary">{crumb}</Typography>;
-          }
-          else {
-            return (
-              <Link
-                component="button"
-                variant="body1"
-                onClick={() => {
-                  selectBreadcrumb(breadcrumbs.slice(0, index + 1));
-                }}
-                underline="hover" 
-                color="inherit"
-              >
-                {crumb}
-              </Link>
-            );
-          }
-        })}
+          {breadcrumbs.map((crumb, index) => {
+            if (index === breadcrumbs.length - 1) {
+              return <Typography color="text.primary">{crumb}</Typography>;
+            }
+            else {
+              return (
+                <Link
+                  component="button"
+                  variant="body1"
+                  onClick={() => {
+                    selectBreadcrumb(breadcrumbs.slice(0, index + 1));
+                  }}
+                  underline="hover" 
+                  color="inherit"
+                >
+                  {crumb}
+                </Link>
+              );
+            }
+          })}
         </Breadcrumbs>
         <Typography variant="h4">
-        { data?.name }
-      </Typography>
+          { data?.name }
+        </Typography>
         { data?.functions && <Library data={data} setSelectedItem={select} /> }
         { data?.arguments && <Function data={data} />}
         { data?.properties?.length > 0 && <Properties data={data.properties} />}
@@ -155,5 +168,7 @@ export default function MainView({ data, setSelectedItem, breadcrumbs, selectBre
         { data?.assets && <LicenseAsset data={data.assets} />}
         { data?.author && <Profile data={data} />}
       </Box>
+      <Footer />
+    </Box>
   );
 }
