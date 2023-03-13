@@ -11,17 +11,20 @@ export default function SideBar({ data, setSelectedItem }) {
 
   function renderTree(data, parents) {
     const identifier = data?.identifier ?? data?.name;
-      const label = data?.name;
-      const nestedData = data.data;
-      return identifier && (
-        <TreeItem key={identifier} nodeId={identifier} label={label} onClick={() => {
+    const label = data?.name ?? data?.identifier;
+    const nestedData = data.data;
+    return identifier && (
+      <TreeItem
+        key={identifier}
+        nodeId={identifier}
+        label={label}
+        onClick={() => {
           setSelectedItem(data, [...parents, label])
-        }
-        }>
-          {Array.isArray(nestedData) && nestedData.map((item) => renderTree(item, [...parents, label]))}
-        </TreeItem>
-      );
-
+        }}
+      >
+        {Array.isArray(nestedData) && nestedData.map((item) => renderTree(item, [...parents, label]))}
+      </TreeItem>
+    );
   }
 
   return (

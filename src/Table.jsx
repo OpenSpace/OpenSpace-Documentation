@@ -16,13 +16,12 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
   
 export default function BasicTable({ headers, rows, setSelectedItem }) {
   const [open, setOpen] = React.useState(false);
-
   if (!(rows?.length && rows?.length > 0)) {
     return null;
   }
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>{"Name"}</TableCell>
@@ -42,12 +41,11 @@ export default function BasicTable({ headers, rows, setSelectedItem }) {
                     variant="body2"
                     onClick={() => setSelectedItem(row)}
                   >
-                    {row?.name || row?.id}
+                    { row?.name || row?.id }
                   </Link>
-                  : <>{row?.name || row?.id}</>
+                  : <>{ row?.name || row?.id }</>
                 }
               </TableCell>
-              
               {headers.map((header) => {
                 if (header === 'name') {
                   return null;
