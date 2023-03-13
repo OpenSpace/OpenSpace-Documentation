@@ -40,13 +40,16 @@ function App() {
   const [breadcrumbs, setBreadcrumbs] = React.useState([]);
   const [searchText, setSearchText] = React.useState(null);
   const [mode, toggleMode] = useColorMode();
-
   function select(data, parents) {
     setBreadcrumbs(parents);
     setSelectedItem(data);
   }
 
   function selectBreadcrumb(crumbs) {
+    if (!crumbs) {
+      setBreadcrumbs([]);
+      return;
+    }
     let found = undefined;
     crumbs.map(crumb => {
       if (!found) {
@@ -56,7 +59,11 @@ function App() {
         found = found.find(element => element.name === crumb);
       }
       else if (typeof found === 'object') {
-        found = found.data.find(element => element.name === crumb);
+        Object.values(found).map(value => {
+          if (Array.isArray(value)) {
+            found = value.find(element => element.name === crumb);
+          }
+        })
       }
     });
     setSelectedItem(found);
@@ -77,7 +84,6 @@ function App() {
           MuiAppBar: {
             styleOverrides: {
               root: {
-                // Some CSS
                 backgroundColor: mode === 'light' && HeaderColor
               }
             }
@@ -96,13 +102,18 @@ function App() {
             searchText={searchText}
             setSearchText={setSearchText}
             data={data.documentation}
-            setSelectedItem={setSelectedItem}
+            setSelectedItem={select}
             selectedItem={selectedItem}
           >
             <ToggleMode />
           </Header>
           <SideBar data={data.documentation} setSelectedItem={select} />
-          <MainView data={selectedItem} setSelectedItem={select} breadcrumbs={breadcrumbs} selectBreadcrumb={selectBreadcrumb} />
+          <MainView
+            data={selectedItem}
+            setSelectedItem={select}
+            breadcrumbs={breadcrumbs}
+            selectBreadcrumb={selectBreadcrumb}
+          />
         </Box>
       </ThemeProvider>
   );
