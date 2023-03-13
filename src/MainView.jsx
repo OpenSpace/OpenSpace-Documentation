@@ -42,15 +42,26 @@ function PropertyOwners({ data, setSelectedItem }) {
       )
 }
 
-function Properties({ data }) {
+function Properties({ data, setSelectedItem }) {
   return (
         <>
           <Typography variant="h5">
             { "Properties" }
           </Typography>
-          <Table headers={["description", "fullyQualifiedId", "guiName", "id", "type"]} rows={data} />
+          <Table headers={["description"]} rows={data} setSelectedItem={setSelectedItem} />
         </>
       )
+}
+
+function Property({ data }) {
+  return (
+    <>
+      <Typography variant="h5">
+        {'Property'}
+      </Typography>
+      <Table headers={["description", "fullyQualifiedId", "guiName", "type"]} rows={[data]} />
+    </>
+  );
 }
 
 function Members({ data }) {
@@ -81,7 +92,7 @@ function License({ data, setSelectedItem }) {
           <Typography variant="h5">
             { "Licenses" }
           </Typography>
-          <Table headers={["description", "documentation", "optional", "type"]} rows={data} setSelectedItem={setSelectedItem} />
+          <Table headers={[]} rows={data} setSelectedItem={setSelectedItem} />
         </>
       )
 }
@@ -99,17 +110,16 @@ function LicenseAsset({ data }) {
 
 function Profile({ data }) {
   return (
-        <>
-          <Typography variant="h5">
-            { data.profileName }
-          </Typography>
-          <Table headers={["description", "author", "license", "version", "url"]} rows={[data]} />
-        </>
-      )
+    <>
+      <Typography variant="h5">
+        {data.profileName}
+      </Typography>
+      <Table headers={["description", "author", "license", "version", "url"]} rows={[data]} />
+    </>
+  );
 }
 
 export default function MainView({ data, setSelectedItem, breadcrumbs, selectBreadcrumb }) {
-
   function select(data) {
     setSelectedItem(data, [...breadcrumbs, data.name]);
   }
@@ -160,13 +170,14 @@ export default function MainView({ data, setSelectedItem, breadcrumbs, selectBre
         </Typography>
         { data?.functions && <Library data={data} setSelectedItem={select} /> }
         { data?.arguments && <Function data={data} />}
-        { data?.properties?.length > 0 && <Properties data={data.properties} />}
+        { data?.properties?.length > 0 && <Properties data={data.properties} setSelectedItem={select} />}
         { data?.propertyOwners?.length > 0 && <PropertyOwners data={data.propertyOwners} setSelectedItem={select} />}
         { data?.classes?.length > 0 && <Classes data={data.classes} setSelectedItem={select} />}
         { data?.members?.length > 0 && <Members data={data.members} setSelectedItem={select} />}
         { data?.licenses && <License data={data.licenses} setSelectedItem={select} />}
         { data?.assets && <LicenseAsset data={data.assets} />}
         { data?.author && <Profile data={data} />}
+        { data?.fullyQualifiedId && <Property data={data} />}
       </Box>
       <Footer />
     </Box>
