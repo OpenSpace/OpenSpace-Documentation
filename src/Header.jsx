@@ -98,70 +98,87 @@ function Header({ search, searchText, setSearchText, data, selectedItem, setSele
   const id = open ? 'simple-popover' : undefined;
 
   return (
-  <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-        <Toolbar>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              cursor: 'pointer'
+            }}
+            onClick={() => setSelectedItem([], [])}>
             <img
               src={logo}
               alt={`OpenSpace Logo`}
               style={{ maxWidth: '200px' }}
               />
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            align="left"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              align="left"
+              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            >
+              {"Documentation"}
+            </Typography>
+          </Box>
+          <Box
+           sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center'
+            }}
           >
-            Documentation
-          </Typography>
-          { children }
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-              onChange={onChange}
-              onFocus={onFocus}
-            />
-            {open && (
-              <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
-                }}
-                disableAutoFocus={true}
-              >
-                <Box sx={{ 
-                  width: 800,
-                  height: 800,
-                  display: 'flex',
-                }}>
-                  <Box sx={{ width: "50%" }}>
-                    {searchText && searchResultsAll.current.map(item => 
-                      <Typography key={`all${item?.identifier ?? item.name}`} sx={{ p: 2, }} onClick={() => setSelectedItem(item)}>
-                        {item?.name ?? item.identifier}
-                      </Typography>)
-                    }
+            { children }
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+                onChange={onChange}
+                onFocus={onFocus}
+              />
+              {open && (
+                <Popover
+                  id={id}
+                  open={open}
+                  anchorEl={anchorEl}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  disableAutoFocus={true}
+                >
+                  <Box sx={{ 
+                    width: 800,
+                    height: 800,
+                    display: 'flex',
+                  }}>
+                    <Box sx={{ width: "50%" }}>
+                      {searchText && searchResultsAll.current.map(item => 
+                        <Typography key={`all${item?.identifier ?? item.name}`} sx={{ p: 2, }} onClick={() => setSelectedItem(item)}>
+                          {item?.name ?? item.identifier}
+                        </Typography>)
+                      }
+                    </Box>
+                    <Divider orientation={'vertical'} />
+                    <Box sx={{ width: "50%" }}>
+                      {searchText && searchResultsSelected.current.map(item => 
+                        <Typography key={item?.identifier ?? item.name} sx={{ p: 2, }} onClick={() => setSelectedItem(item)}>
+                          {item?.name ?? item.identifier}
+                        </Typography>)
+                      }
+                    </Box>
                   </Box>
-                  <Divider orientation={'vertical'} />
-                  <Box sx={{ width: "50%" }}>
-                     {searchText && searchResultsSelected.current.map(item => 
-                      <Typography key={item?.identifier ?? item.name} sx={{ p: 2, }} onClick={() => setSelectedItem(item)}>
-                        {item?.name ?? item.identifier}
-                      </Typography>)
-                    }
-                  </Box>
-                </Box>
-              </Popover>
-            )}
-          </Search>
+                </Popover>
+              )}
+            </Search>
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>      
