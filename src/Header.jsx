@@ -55,11 +55,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function SearchCard({ data, crumbs, setSelectedItem }) {
   return (
-    <Box sx={{ cursor: 'pointer'}} onClick={() => setSelectedItem(data, crumbs)}>
+    <Box sx={{ cursor: 'pointer', maxWidth: '100%' }} onClick={() => setSelectedItem(data, crumbs)}>
       <Typography key={`all${data?.Name}`} sx={{ p: 2, paddingBottom: 0}} >
         {data?.Name}
       </Typography>
-      <Typography sx={{ p: 2, paddingTop: 0, paddingBottom: 0, color: 'grey'}}>
+      <Typography sx={{ p: 2, paddingTop: 0, paddingBottom: 0, color: 'grey', overflowWrap: 'break-word'}}>
         {crumbs.map(crumb => crumb + "/")}
       </Typography>
     </Box>
@@ -75,20 +75,18 @@ function Header({ search, searchText, setSearchText, data, selectedItem, setSele
     setSearchText(event.target.value);
   }
 
-  function onKeyPress(event) {
-    if (event.key === 'Enter') {
-      setSearchResultsAll([]);
-      setSearchResultsSelected([]);
+  function search() {
+    setSearchResultsAll([]);
+    setSearchResultsSelected([]);
+    
+    let searchResultsAllCopy = [];
+    findSearchResults(searchResultsAllCopy, data, []);
+    setSearchResultsAll(searchResultsAllCopy);
       
-      let searchResultsAllCopy = [];
-      findSearchResults(searchResultsAllCopy, data, []);
-      setSearchResultsAll(searchResultsAllCopy);
-      
-      if (selectedItem) {
-        let searchResultsSelectedCopy = [];
-        findSearchResults(searchResultsSelectedCopy, selectedItem, breadcrumbs);
-        setSearchResultsSelected(searchResultsSelectedCopy);
-      }
+    if (selectedItem) {
+      let searchResultsSelectedCopy = [];
+      findSearchResults(searchResultsSelectedCopy, selectedItem, breadcrumbs);
+      setSearchResultsSelected(searchResultsSelectedCopy);
     }
   }
   
@@ -167,8 +165,8 @@ function Header({ search, searchText, setSearchText, data, selectedItem, setSele
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'search' }}
                 onChange={onChange}
-                onKeyPress={onKeyPress}
                 onFocus={onFocus}
+                onKeyPress={(event) => event.key == "Enter" && search()}
               />
               {open && (
                 <Popover
@@ -188,7 +186,9 @@ function Header({ search, searchText, setSearchText, data, selectedItem, setSele
                     display: 'flex',
                   }}>
                     <Box sx={{ width: "50%" }}>
-                      {searchText && searchResultsAll.map(({ data, crumbs }) => SearchCard({ data, crumbs, setSelectedItem }))}
+                      {searchText && searchResultsAll.map(({ data, crumbs }) =>
+                        SearchCard({ data, crumbs, setSelectedItem })
+                      )}
                     </Box>
                     <Divider orientation={'vertical'} />
                     <Box sx={{ width: "50%" }}>
