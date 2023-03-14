@@ -54,7 +54,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-function Header({ search, searchText, setSearchText, data, selectedItem, setSelectedItem, children }) { 
+function Header({ search, searchText, setSearchText, data, selectedItem, setSelectedItem, breadcrumbs, children }) { 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const searchResultsAll = React.useRef([]);
   const searchResultsSelected = React.useRef([]);
@@ -64,9 +64,9 @@ function Header({ search, searchText, setSearchText, data, selectedItem, setSele
     searchResultsAll.current = [];
     searchResultsSelected.current = [];
     
-    findSearchResults(searchResultsAll, data);
+    findSearchResults(searchResultsAll, data, []);
     if (selectedItem) {
-      findSearchResults(searchResultsSelected, selectedItem);
+      findSearchResults(searchResultsSelected, selectedItem, breadcrumbs);
     }
   }
   
@@ -78,18 +78,18 @@ function Header({ search, searchText, setSearchText, data, selectedItem, setSele
     setAnchorEl(null);
   }
 
-  function findSearchResults(searchResults, documentationData) {
+  function findSearchResults(searchResults, documentationData, parents) {
     if (!searchText) return;
     if (Array.isArray(documentationData)) {
-      documentationData.map(item => findSearchResults(searchResults, item));
+      documentationData.map(item => findSearchResults(searchResults, item, [...parents, item.Name]));
     }
     else if (typeof documentationData === 'object') {
       const found = ObjectWordBeginningSubstring(documentationData, searchText);
       if (found) {
-        searchResults.current.push(documentationData);
+        searchResults.current.push({ data: documentationData, crumbs: parents });
       }
-      if(documentationData?.data) {
-        documentationData.data.map(item => findSearchResults(searchResults, item));
+      if(documentationData?.Data) {
+        documentationData.Data.map(item => findSearchResults(searchResults, item, [...parents, item.Name]));
       }
     }
   }
@@ -160,17 +160,17 @@ function Header({ search, searchText, setSearchText, data, selectedItem, setSele
                     display: 'flex',
                   }}>
                     <Box sx={{ width: "50%" }}>
-                      {searchText && searchResultsAll.current.map(item => 
-                        <Typography key={`all${item?.identifier ?? item.name}`} sx={{ p: 2, }} onClick={() => setSelectedItem(item)}>
-                          {item?.name ?? item.identifier}
+                      {searchText && searchResultsAll.current.map(({data, crumbs}) => 
+                        <Typography key={`all${data?.Identifier ?? data?.Name}`} sx={{ p: 2, }} onClick={() => setSelectedItem(data, crumbs)}>
+                          {data?.Name ?? data?.Identifier}
                         </Typography>)
                       }
                     </Box>
                     <Divider orientation={'vertical'} />
                     <Box sx={{ width: "50%" }}>
-                      {searchText && searchResultsSelected.current.map(item => 
-                        <Typography key={item?.identifier ?? item.name} sx={{ p: 2, }} onClick={() => setSelectedItem(item)}>
-                          {item?.name ?? item.identifier}
+                      {searchText && searchResultsSelected.current.map(({data, crumbs}) => 
+                        <Typography key={data?.Identifier ?? data?.Name} sx={{ p: 2, }} onClick={() => setSelectedItem(data, crumbs)}>
+                          {data?.Name ?? data?.Identifier}
                         </Typography>)
                       }
                     </Box>

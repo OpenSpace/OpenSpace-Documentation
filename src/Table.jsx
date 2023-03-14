@@ -31,7 +31,7 @@ export default function BasicTable({ headers, rows, setSelectedItem }) {
         <TableBody>
           {rows.map((row) => (<>
             <TableRow
-              key={row?.name || row?.id}
+              key={row?.Name || row?.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row" >
@@ -41,9 +41,9 @@ export default function BasicTable({ headers, rows, setSelectedItem }) {
                     variant="body2"
                     onClick={() => setSelectedItem(row)}
                   >
-                    { row?.name || row?.id }
+                    { row?.Name || row?.id }
                   </Link>
-                  : <>{ row?.name || row?.id }</>
+                  : <>{ row?.Name || row?.id }</>
                 }
               </TableCell>
               {headers.map((header) => {

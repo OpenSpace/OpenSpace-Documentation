@@ -10,12 +10,12 @@ function Function({data}) {
   return (
     <>
       <Typography variant="body2">
-        { data.help }
+        { data.Help }
       </Typography>
       <Typography variant="h6">
         { "Function arguments" }
       </Typography>
-      <Table headers={["type", "defaultValue"]} rows={data.arguments} />
+      <Table headers={["Type", "Default Value"]} rows={data.Arguments} />
     </>
   );
 }
@@ -26,7 +26,7 @@ function Library({data, setSelectedItem}) {
       <Typography variant="h5">
         { "Functions" }
       </Typography>
-      <Table headers={["help"]} rows={data.functions} setSelectedItem={setSelectedItem} />
+      <Table headers={["Help"]} rows={data.Functions} setSelectedItem={setSelectedItem} />
     </>
   );
 }
@@ -48,7 +48,7 @@ function Properties({ data, setSelectedItem }) {
           <Typography variant="h5">
             { "Properties" }
           </Typography>
-          <Table headers={["description"]} rows={data} setSelectedItem={setSelectedItem} />
+          <Table headers={["Description"]} rows={data} setSelectedItem={setSelectedItem} />
         </>
       )
 }
@@ -59,7 +59,7 @@ function Property({ data }) {
       <Typography variant="h5">
         {'Property'}
       </Typography>
-      <Table headers={["description", "fullyQualifiedId", "guiName", "type"]} rows={[data]} />
+      <Table headers={["URI", "Gui Name", "Type"]} rows={[data]} />
     </>
   );
 }
@@ -70,7 +70,7 @@ function Members({ data }) {
           <Typography variant="h5">
             { "Class Members" }
           </Typography>
-          <Table headers={["description", "documentation", "optional", "type"]} rows={data} />
+          <Table headers={["Description", "Documentation", "Optional", "Type"]} rows={data} />
         </>
       )
 }
@@ -103,7 +103,7 @@ function LicenseAsset({ data }) {
           <Typography variant="h5">
             { "Assets" }
           </Typography>
-          <Table headers={["description", "author", "path", "url"]} rows={data} />
+          <Table headers={["Description", "Author", "Path", "Url"]} rows={data} />
         </>
       )
 }
@@ -114,16 +114,17 @@ function Profile({ data }) {
       <Typography variant="h5">
         {data.profileName}
       </Typography>
-      <Table headers={["description", "author", "license", "version", "url"]} rows={[data]} />
+      <Table headers={["Author", "License", "Version", "Url"]} rows={[data]} />
     </>
   );
 }
 
 export default function MainView({ data, setSelectedItem, breadcrumbs, selectBreadcrumb }) {
   function select(data) {
-    setSelectedItem(data, [...breadcrumbs, data.name]);
+    const label = data?.Name ?? data?.Identifier ?? data?.id;
+    setSelectedItem(data, [...breadcrumbs, label]);
   }
-
+  console.log(data)
   return (
     <Box
       component="main"
@@ -144,7 +145,7 @@ export default function MainView({ data, setSelectedItem, breadcrumbs, selectBre
       >
       <Toolbar />
         <Breadcrumbs aria-label="breadcrumb">
-          {breadcrumbs.map((crumb, index) => {
+          {breadcrumbs?.map((crumb, index) => {
             if (index === breadcrumbs.length - 1) {
               return <Typography color="text.primary">{crumb}</Typography>;
             }
@@ -166,18 +167,19 @@ export default function MainView({ data, setSelectedItem, breadcrumbs, selectBre
           })}
         </Breadcrumbs>
         <Typography variant="h4">
-          { data?.name }
+          { data?.Name }
         </Typography>
-        { data?.functions && <Library data={data} setSelectedItem={select} /> }
-        { data?.arguments && <Function data={data} />}
-        { data?.properties?.length > 0 && <Properties data={data.properties} setSelectedItem={select} />}
-        { data?.propertyOwners?.length > 0 && <PropertyOwners data={data.propertyOwners} setSelectedItem={select} />}
-        { data?.classes?.length > 0 && <Classes data={data.classes} setSelectedItem={select} />}
-        { data?.members?.length > 0 && <Members data={data.members} setSelectedItem={select} />}
-        { data?.licenses && <License data={data.licenses} setSelectedItem={select} />}
-        { data?.assets && <LicenseAsset data={data.assets} />}
-        { data?.author && <Profile data={data} />}
-        { data?.fullyQualifiedId && <Property data={data} />}
+        { data?.Description && <Typography variant={"p"}>{data.Description}</Typography>}
+        { data?.Functions && <Library data={data} setSelectedItem={select} /> }
+        { data?.Arguments && <Function data={data} />}
+        { data?.Properties?.length > 0 && <Properties data={data.Properties} setSelectedItem={select} />}
+        { data?.PropertyOwners?.length > 0 && <PropertyOwners data={data.PropertyOwners} setSelectedItem={select} />}
+        { data?.Classes?.length > 0 && <Classes data={data.Classes} setSelectedItem={select} />}
+        { data?.Members?.length > 0 && <Members data={data.Members} setSelectedItem={select} />}
+        { data?.Licenses && <License data={data.Licenses} setSelectedItem={select} />}
+        { data?.Assets && <LicenseAsset data={data.Assets} />}
+        { data?.Author && <Profile data={data} />}
+        { data?.URI && <Property data={data} />}
       </Box>
       <Footer />
     </Box>

@@ -40,6 +40,7 @@ function App() {
   const [breadcrumbs, setBreadcrumbs] = React.useState([]);
   const [searchText, setSearchText] = React.useState(null);
   const [mode, toggleMode] = useColorMode();
+
   function select(data, parents) {
     setBreadcrumbs(parents);
     setSelectedItem(data);
@@ -56,12 +57,12 @@ function App() {
         found = data.documentation;
       }
       if (Array.isArray(found)) {
-        found = found.find(element => element.name === crumb);
+        found = found.find(element => element.Name === crumb);
       }
       else if (typeof found === 'object') {
         Object.values(found).map(value => {
           if (Array.isArray(value)) {
-            found = value.find(element => element.name === crumb);
+            found = value.find(element => element.Name === crumb);
           }
         })
       }
@@ -71,7 +72,7 @@ function App() {
   }
 
   function search(string) {
-    setSelectedItem(data.documentation.filter(item => item.name.includes(string.target.value)));
+    setSelectedItem(data.documentation.filter(item => item.Name.includes(string.target.value)));
   }
 
   const theme = React.useMemo(
@@ -104,6 +105,7 @@ function App() {
             data={data.documentation}
             setSelectedItem={select}
             selectedItem={selectedItem}
+            breadcrumbs={breadcrumbs}
           >
             <ToggleMode />
           </Header>
