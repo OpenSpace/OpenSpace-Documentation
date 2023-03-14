@@ -53,6 +53,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+function SearchCard({ data, crumbs, setSelectedItem }) {
+  return (
+    <Box sx={{ cursor: 'pointer'}} onClick={() => setSelectedItem(data, crumbs)}>
+      <Typography key={`all${data?.Name}`} sx={{ p: 2, paddingBottom: 0}} >
+        {data?.Name}
+      </Typography>
+      <Typography sx={{ p: 2, paddingTop: 0, paddingBottom: 0, color: 'grey'}}>
+        {crumbs.map(crumb => crumb + "/")}
+      </Typography>
+    </Box>
+  );
+}
+
 function Header({ search, searchText, setSearchText, data, selectedItem, setSelectedItem, breadcrumbs, children }) { 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [searchResultsAll, setSearchResultsAll] = React.useState([]);
@@ -70,6 +83,7 @@ function Header({ search, searchText, setSearchText, data, selectedItem, setSele
       let searchResultsAllCopy = [];
       findSearchResults(searchResultsAllCopy, data, []);
       setSearchResultsAll(searchResultsAllCopy);
+      
       if (selectedItem) {
         let searchResultsSelectedCopy = [];
         findSearchResults(searchResultsSelectedCopy, selectedItem, breadcrumbs);
@@ -174,19 +188,11 @@ function Header({ search, searchText, setSearchText, data, selectedItem, setSele
                     display: 'flex',
                   }}>
                     <Box sx={{ width: "50%" }}>
-                      {searchText && searchResultsAll.map(({data, crumbs}) => 
-                        <Typography key={`all${data?.Identifier ?? data?.Name}`} sx={{ p: 2, }} onClick={() => setSelectedItem(data, crumbs)}>
-                          {data?.Name ?? data?.Identifier}
-                        </Typography>)
-                      }
+                      {searchText && searchResultsAll.map(({ data, crumbs }) => SearchCard({ data, crumbs, setSelectedItem }))}
                     </Box>
                     <Divider orientation={'vertical'} />
                     <Box sx={{ width: "50%" }}>
-                      {searchText && searchResultsSelected.map(({data, crumbs}) => 
-                        <Typography key={data?.Identifier ?? data?.Name} sx={{ p: 2, }} onClick={() => setSelectedItem(data, crumbs)}>
-                          {data?.Name ?? data?.Identifier}
-                        </Typography>)
-                      }
+                      {searchText && searchResultsSelected.map(({ data, crumbs }) => SearchCard({ data, crumbs, setSelectedItem }))}
                     </Box>
                   </Box>
                 </Popover>
