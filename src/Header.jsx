@@ -10,7 +10,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import logo from './img/logo.png'; // Tell webpack this JS file uses this image
 import { Popover } from '@mui/material';
 import { Divider } from '@mui/material';
-import { ObjectWordBeginningSubstring } from './StringMatchers';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -56,17 +55,26 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function Header({ search, searchText, setSearchText, data, selectedItem, setSelectedItem, breadcrumbs, children }) { 
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const searchResultsAll = React.useRef([]);
-  const searchResultsSelected = React.useRef([]);
+  const [searchResultsAll, setSearchResultsAll] = React.useState([]);
+  const [searchResultsSelected, setSearchResultsSelected] = React.useState([]);
 
   function onChange(event) {
     setSearchText(event.target.value);
-    searchResultsAll.current = [];
-    searchResultsSelected.current = [];
-    
-    findSearchResults(searchResultsAll, data, []);
-    if (selectedItem) {
-      findSearchResults(searchResultsSelected, selectedItem, breadcrumbs);
+  }
+
+  function onKeyPress(event) {
+    if (event.key === 'Enter') {
+      setSearchResultsAll([]);
+      setSearchResultsSelected([]);
+      
+      let searchResultsAllCopy = [];
+      findSearchResults(searchResultsAllCopy, data, []);
+      setSearchResultsAll(searchResultsAllCopy);
+      if (selectedItem) {
+        let searchResultsSelectedCopy = [];
+        findSearchResults(searchResultsSelectedCopy, selectedItem, breadcrumbs);
+        setSearchResultsSelected(searchResultsSelectedCopy);
+      }
     }
   }
   
@@ -84,13 +92,18 @@ function Header({ search, searchText, setSearchText, data, selectedItem, setSele
       documentationData.map(item => findSearchResults(searchResults, item, [...parents, item.Name]));
     }
     else if (typeof documentationData === 'object') {
-      const found = ObjectWordBeginningSubstring(documentationData, searchText);
+      const found = documentationData.Name.toLowerCase().includes(searchText.toLowerCase());
       if (found) {
-        searchResults.current.push({ data: documentationData, crumbs: parents });
+        searchResults.push({ data: documentationData, crumbs: parents });
       }
-      if(documentationData?.Data) {
-        documentationData.Data.map(item => findSearchResults(searchResults, item, [...parents, item.Name]));
-      }
+      Object.values(documentationData).map(nestedData => {
+        if (Array.isArray(nestedData)) {
+          nestedData.map(item => findSearchResults(searchResults, item, [...parents, item.Name]))
+        } 
+        else {
+          findSearchResults(searchResults, nestedData, [...parents, nestedData.Name])
+        }
+      });
     }
   }
 
@@ -140,6 +153,7 @@ function Header({ search, searchText, setSearchText, data, selectedItem, setSele
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'search' }}
                 onChange={onChange}
+                onKeyPress={onKeyPress}
                 onFocus={onFocus}
               />
               {open && (
@@ -160,7 +174,7 @@ function Header({ search, searchText, setSearchText, data, selectedItem, setSele
                     display: 'flex',
                   }}>
                     <Box sx={{ width: "50%" }}>
-                      {searchText && searchResultsAll.current.map(({data, crumbs}) => 
+                      {searchText && searchResultsAll.map(({data, crumbs}) => 
                         <Typography key={`all${data?.Identifier ?? data?.Name}`} sx={{ p: 2, }} onClick={() => setSelectedItem(data, crumbs)}>
                           {data?.Name ?? data?.Identifier}
                         </Typography>)
@@ -168,7 +182,7 @@ function Header({ search, searchText, setSearchText, data, selectedItem, setSele
                     </Box>
                     <Divider orientation={'vertical'} />
                     <Box sx={{ width: "50%" }}>
-                      {searchText && searchResultsSelected.current.map(({data, crumbs}) => 
+                      {searchText && searchResultsSelected.map(({data, crumbs}) => 
                         <Typography key={data?.Identifier ?? data?.Name} sx={{ p: 2, }} onClick={() => setSelectedItem(data, crumbs)}>
                           {data?.Name ?? data?.Identifier}
                         </Typography>)

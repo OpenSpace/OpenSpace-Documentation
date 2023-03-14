@@ -6,7 +6,7 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import Footer from './Footer';
 
-function Function({data}) {
+function Function({ data }) {
   return (
     <>
       <Typography variant="body2">
@@ -124,7 +124,7 @@ export default function MainView({ data, setSelectedItem, breadcrumbs, selectBre
     const label = data?.Name ?? data?.Identifier ?? data?.id;
     setSelectedItem(data, [...breadcrumbs, label]);
   }
-  console.log(data)
+
   return (
     <Box
       component="main"
