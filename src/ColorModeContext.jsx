@@ -1,5 +1,4 @@
 import * as React from 'react'
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 const ColorModeContext = React.createContext()
 
@@ -40,15 +39,7 @@ function useLocalStorageState(
 }
 
 function ColorModeProvider(props) {
-  const [mode, setMode] = useLocalStorageState('colorMode', '');
-  const initialMode = useMediaQuery('(prefers-color-scheme: dark)', { noSsr: true }) ? 'dark' : 'light';
-
-  React.useEffect(() => {
-    if (mode === '') {
-      // If there is no local storage, see what the browser wants
-      setMode(initialMode);
-    }
-  }, []); 
+  const [mode, setMode] = useLocalStorageState('colorMode', 'light');
   
   const colorMode = React.useMemo(
     () => ({
