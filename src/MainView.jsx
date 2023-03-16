@@ -6,6 +6,14 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import Footer from './Footer';
 
+function Title({ children }) {
+  return (
+    <Typography variant="h5" sx={{ paddingTop: '20px' }}>
+      {children}
+    </Typography>
+  );
+} 
+
 function Function({ data }) {
   return (
     <>
@@ -23,9 +31,9 @@ function Function({ data }) {
 function Library({data, setSelectedItem}) {
   return (
     <>
-      <Typography variant="h5">
+      <Title>
         { "Functions" }
-      </Typography>
+      </Title>
       <Table headers={["Help"]} rows={data.Functions} setSelectedItem={setSelectedItem} />
     </>
   );
@@ -38,37 +46,37 @@ function PropertyOwners({ data, setSelectedItem, select, searchAssetTypes }) {
     setSelectedItem(found.data, found.crumbs);
   }
   return (
-        <>
-          <Typography variant="h5">
-            { "Property Owners" }
-          </Typography>
-          <Table
-            headers={["Type"]}
-            rows={data}
-            setSelectedItem={select}
-            cellFunc={{ Name: "Type", Function: findAssetType }}
-          />
-        </>
-      )
+    <>
+      <Title>
+        {"Property Owners"}
+      </Title>
+      <Table
+        headers={["Type"]}
+        rows={data}
+        setSelectedItem={select}
+        cellFunc={{ Name: "Type", Function: findAssetType }}
+      />
+    </>
+  );
 }
 
 function Properties({ data, setSelectedItem }) {
   return (
-        <>
-          <Typography variant="h5" sx={{ paddingTop: '20px'}}>
-            { "Properties" }
-          </Typography>
-          <Table headers={["Description"]} rows={data} setSelectedItem={setSelectedItem} />
-        </>
-      )
+    <>
+      <Title>
+        {"Properties"}
+      </Title>
+      <Table headers={["Description"]} rows={data} setSelectedItem={setSelectedItem} />
+    </>
+  );
 }
 
 function Property({ data }) {
   return (
     <>
-      <Typography variant="h5">
+      <Title>
         {'Property'}
-      </Typography>
+      </Title>
       <Table headers={["URI", "Gui Name", "Type"]} rows={[data]} />
     </>
   );
@@ -76,54 +84,54 @@ function Property({ data }) {
 
 function Members({ data }) {
   return (
-        <>
-          <Typography variant="h5">
-            { "Class Members" }
-          </Typography>
-          <Table headers={["Description", "Documentation", "Optional", "Type"]} rows={data} />
-        </>
-      )
+    <>
+      <Title>
+        {"Class Members"}
+      </Title>
+      <Table headers={["Description", "Documentation", "Optional", "Type"]} rows={data} />
+    </>
+  );
 }
 
 function Classes({ data, setSelectedItem }) {
   return (
-        <>
-          <Typography variant="h5">
-            { "Classes" }
-          </Typography>
-          <Table headers={[]} rows={data} setSelectedItem={setSelectedItem}/>
-        </>
-      )
+    <>
+      <Title>
+        {"Classes"}
+      </Title>
+      <Table headers={[]} rows={data} setSelectedItem={setSelectedItem} />
+    </>
+  );
 }
 
 function License({ data, setSelectedItem }) {
   return (
-        <>
-          <Typography variant="h5">
-            { "Licenses" }
-          </Typography>
-          <Table headers={[]} rows={data} setSelectedItem={setSelectedItem} />
-        </>
-      )
+    <>
+      <Title>
+        {"Licenses"}
+      </Title>
+      <Table headers={[]} rows={data} setSelectedItem={setSelectedItem} />
+    </>
+  );
 }
 
 function LicenseAsset({ data }) {
   return (
-        <>
-          <Typography variant="h5">
-            { "Assets" }
-          </Typography>
-          <Table headers={["Description", "Author", "Path", "Url"]} rows={data} />
-        </>
-      )
+    <>
+      <Title>
+        {"Assets"}
+      </Title>
+      <Table headers={["Description", "Author", "Path", "Url"]} rows={data} />
+    </>
+  );
 }
 
 function Profile({ data }) {
   return (
     <>
-      <Typography variant="h5">
+      <Title>
         {data.profileName}
-      </Typography>
+      </Title>
       <Table headers={["Author", "License", "Version", "Url"]} rows={[data]} />
     </>
   );
