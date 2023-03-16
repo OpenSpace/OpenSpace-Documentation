@@ -148,7 +148,7 @@ function Type({ setSelectedItem, searchAssetTypes, type }) {
   }
 
   return (
-    <Box sx={{ display: 'flex', gap: '5px', justifyContent: 'end' }}>
+    <Box sx={{ display: 'flex', gap: '5px', justifyContent: 'end', marginLeft: 'auto' }}>
       <Typography sx={{ fontStyle: 'italic', color: 'grey'}} variant={"p"}>{"Asset Type"}</Typography>
       <Link
         sx={{ fontStyle: 'italic' }}
@@ -213,8 +213,12 @@ export default function MainView({ searchAssetTypes, data, setSelectedItem, brea
           { data?.Name }
         </Typography>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          { data?.Description && <Typography variant={"p"}>{data.Description}</Typography>}
-          {data?.Properties?.length > 0 && data?.Type &&
+          { data?.Description &&
+            <Typography variant={"p"} sx={{ fontStyle: 'italic'}}>
+              {data.Description}
+            </Typography>
+          }
+          { data?.Properties?.length > 0 && data?.Type &&
             <Type type={data.Type} searchAssetTypes={searchAssetTypes} setSelectedItem={setSelectedItem} />
           }
         </Box>
