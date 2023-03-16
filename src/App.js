@@ -71,8 +71,40 @@ function App() {
     setBreadcrumbs(crumbs);
   }
 
-  function search(string) {
-    setSelectedItem(data.documentation.filter(item => item.Name.includes(string.target.value)));
+  function search(searchResults, parents, documentationData) {
+    if (!searchText) return;
+    if (Array.isArray(documentationData)) {
+      documentationData.map(item => search(searchResults, [...parents, item.Name], item));
+    }
+    else if (typeof documentationData === 'object') {
+      const found = documentationData.Name.toLowerCase().includes(searchText.toLowerCase());
+      if (found) {
+        searchResults.push({ data: documentationData, crumbs: parents });
+      }
+      Object.values(documentationData).map(nestedData => {
+        if (Array.isArray(nestedData)) {
+          nestedData.map(item => search(searchResults, [...parents, item.Name], item))
+        } 
+        else {
+          search(searchResults, [...parents, nestedData.Name], nestedData)
+        }
+      });
+    }
+  }
+
+  function searchSelectedItem() {
+    if (!selectedItem) {
+      return [];
+    }
+    let results = [];
+    search(results, breadcrumbs, selectedItem);
+    return results;
+  }
+
+  function searchDocumentation() {
+    let results = [];
+    search(results, [], data.documentation);
+    return results;
   }
 
   const theme = React.useMemo(
@@ -99,13 +131,10 @@ function App() {
         <CssBaseline />
           <Box sx={{ display: "flex" }}>
           <Header
-            search={search}
-            searchText={searchText}
             setSearchText={setSearchText}
-            data={data.documentation}
             setSelectedItem={select}
-            selectedItem={selectedItem}
-            breadcrumbs={breadcrumbs}
+            searchSelectedItem={searchSelectedItem}
+            searchDocumentation={searchDocumentation}
           >
             <ToggleMode />
           </Header>

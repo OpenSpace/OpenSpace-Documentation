@@ -66,7 +66,7 @@ function SearchCard({ data, crumbs, setSelectedItem }) {
   );
 }
 
-function Header({ search, searchText, setSearchText, data, selectedItem, setSelectedItem, breadcrumbs, children }) { 
+function Header({ searchDocumentation, searchSelectedItem, setSearchText, setSelectedItem, children }) { 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [searchResultsAll, setSearchResultsAll] = React.useState([]);
   const [searchResultsSelected, setSearchResultsSelected] = React.useState([]);
@@ -76,18 +76,8 @@ function Header({ search, searchText, setSearchText, data, selectedItem, setSele
   }
 
   function search() {
-    setSearchResultsAll([]);
-    setSearchResultsSelected([]);
-    
-    let searchResultsAllCopy = [];
-    findSearchResults(searchResultsAllCopy, data, []);
-    setSearchResultsAll(searchResultsAllCopy);
-      
-    if (selectedItem) {
-      let searchResultsSelectedCopy = [];
-      findSearchResults(searchResultsSelectedCopy, selectedItem, breadcrumbs);
-      setSearchResultsSelected(searchResultsSelectedCopy);
-    }
+    setSearchResultsAll(searchDocumentation());
+    setSearchResultsSelected(searchSelectedItem());
   }
   
   function onFocus(event) {
@@ -96,27 +86,6 @@ function Header({ search, searchText, setSearchText, data, selectedItem, setSele
 
   function handleClose() {
     setAnchorEl(null);
-  }
-
-  function findSearchResults(searchResults, documentationData, parents) {
-    if (!searchText) return;
-    if (Array.isArray(documentationData)) {
-      documentationData.map(item => findSearchResults(searchResults, item, [...parents, item.Name]));
-    }
-    else if (typeof documentationData === 'object') {
-      const found = documentationData.Name.toLowerCase().includes(searchText.toLowerCase());
-      if (found) {
-        searchResults.push({ data: documentationData, crumbs: parents });
-      }
-      Object.values(documentationData).map(nestedData => {
-        if (Array.isArray(nestedData)) {
-          nestedData.map(item => findSearchResults(searchResults, item, [...parents, item.Name]))
-        } 
-        else {
-          findSearchResults(searchResults, nestedData, [...parents, nestedData.Name])
-        }
-      });
-    }
   }
 
   const open = Boolean(anchorEl);
@@ -186,13 +155,13 @@ function Header({ search, searchText, setSearchText, data, selectedItem, setSele
                     display: 'flex',
                   }}>
                     <Box sx={{ width: "50%" }}>
-                      {searchText && searchResultsAll.map(({ data, crumbs }) =>
+                      {searchResultsAll.map(({ data, crumbs }) =>
                         SearchCard({ data, crumbs, setSelectedItem })
                       )}
                     </Box>
                     <Divider orientation={'vertical'} />
                     <Box sx={{ width: "50%" }}>
-                      {searchText && searchResultsSelected.map(({ data, crumbs }) => SearchCard({ data, crumbs, setSelectedItem }))}
+                      {searchResultsSelected.map(({ data, crumbs }) => SearchCard({ data, crumbs, setSelectedItem }))}
                     </Box>
                   </Box>
                 </Popover>
