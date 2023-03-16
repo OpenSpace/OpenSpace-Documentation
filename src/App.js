@@ -71,22 +71,22 @@ function App() {
     setBreadcrumbs(crumbs);
   }
 
-  function search(searchResults, parents, documentationData) {
-    if (!searchText) return;
+  function search(searchResults, parents, documentationData, string = searchText) {
+    if (!string) return;
     if (Array.isArray(documentationData)) {
-      documentationData.map(item => search(searchResults, [...parents, item.Name], item));
+      documentationData.map(item => search(searchResults, [...parents, item.Name], item, string));
     }
     else if (typeof documentationData === 'object') {
-      const found = documentationData.Name.toLowerCase().includes(searchText.toLowerCase());
+      const found = documentationData.Name.toLowerCase().includes(string.toLowerCase());
       if (found) {
         searchResults.push({ data: documentationData, crumbs: parents });
       }
       Object.values(documentationData).map(nestedData => {
         if (Array.isArray(nestedData)) {
-          nestedData.map(item => search(searchResults, [...parents, item.Name], item))
+          nestedData.map(item => search(searchResults, [...parents, item.Name], item, string))
         } 
         else {
-          search(searchResults, [...parents, nestedData.Name], nestedData)
+          search(searchResults, [...parents, nestedData.Name], nestedData, string)
         }
       });
     }
@@ -105,6 +105,13 @@ function App() {
     let results = [];
     search(results, [], data.documentation);
     return results;
+  }
+
+  function searchAssetTypes(string) {
+    let results = [];
+    const assets = data.documentation.find(item => item.Name === "Asset Types");
+    search(results, [], assets, string);
+    return results[0];
   }
 
   const theme = React.useMemo(
@@ -144,6 +151,7 @@ function App() {
             setSelectedItem={select}
             breadcrumbs={breadcrumbs}
             selectBreadcrumb={selectBreadcrumb}
+            searchAssetTypes={searchAssetTypes}
           />
         </Box>
       </ThemeProvider>

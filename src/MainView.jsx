@@ -31,13 +31,23 @@ function Library({data, setSelectedItem}) {
   );
 }
 
-function PropertyOwners({ data, setSelectedItem }) {
+function PropertyOwners({ data, setSelectedItem, select, searchAssetTypes }) {
+
+  function findAssetType(data) {
+    const found = searchAssetTypes(data.Type);
+    setSelectedItem(found.data, found.crumbs);
+  }
   return (
         <>
           <Typography variant="h5">
             { "Property Owners" }
           </Typography>
-          <Table headers={["Type"]} rows={data} setSelectedItem={setSelectedItem} />
+          <Table
+            headers={["Type"]}
+            rows={data}
+            setSelectedItem={select}
+            cellFunc={{ Name: "Type", Function: findAssetType }}
+          />
         </>
       )
 }
@@ -119,13 +129,32 @@ function Profile({ data }) {
   );
 }
 
-export default function MainView({ assetTypes, data, setSelectedItem, breadcrumbs, selectBreadcrumb }) {
+function Type({ setSelectedItem, searchAssetTypes, type }) {
+
+  function findAssetType(type) {
+    const found = searchAssetTypes(type);
+    setSelectedItem(found.data, found.crumbs);
+  }
+
+  return (
+    <Box sx={{ display: 'flex', gap: '5px', justifyContent: 'end' }}>
+      <Typography sx={{ fontStyle: 'italic', color: 'grey'}} variant={"p"}>{"Asset Type"}</Typography>
+      <Link
+        sx={{ fontStyle: 'italic' }}
+        component={"button"}
+        variant={"body1"}
+        onClick={() => findAssetType(type)}
+      >
+        {type}
+      </Link>
+    </Box>
+  );
+}
+
+export default function MainView({ searchAssetTypes, data, setSelectedItem, breadcrumbs, selectBreadcrumb }) {
   function select(data) {
     const label = data?.Name ?? data?.Identifier ?? data?.id;
     setSelectedItem(data, [...breadcrumbs, label]);
-  }
-
-  function findAssetType(type) {
   }
 
   return (
@@ -172,13 +201,21 @@ export default function MainView({ assetTypes, data, setSelectedItem, breadcrumb
         <Typography variant="h4">
           { data?.Name }
         </Typography>
-        { data?.Properties?.length > 0 && data?.Type && <Typography variant={"p"}>Type: {data?.Type}</Typography>}
+        {data?.Properties?.length > 0 && data?.Type &&
+          <Type type={data.Type} searchAssetTypes={searchAssetTypes} setSelectedItem={setSelectedItem} />
+        }
         { data?.Description && <Typography variant={"p"}>{data.Description}</Typography>}
         
         { data?.Functions && <Library data={data} setSelectedItem={select} /> }
         { data?.Arguments && <Function data={data} />}
         { data?.Properties?.length > 0 && <Properties data={data.Properties} setSelectedItem={select} />}
-        { data?.PropertyOwners?.length > 0 && <PropertyOwners data={data.PropertyOwners} setSelectedItem={select} />}
+        { data?.PropertyOwners?.length > 0 &&
+          <PropertyOwners
+            data={data.PropertyOwners}
+            setSelectedItem={setSelectedItem}
+            select={select}
+            searchAssetTypes={searchAssetTypes}
+          />}
         { data?.Classes?.length > 0 && <Classes data={data.Classes} setSelectedItem={select} />}
         { data?.Members?.length > 0 && <Members data={data.Members} setSelectedItem={select} />}
         { data?.Licenses && <License data={data.Licenses} setSelectedItem={select} />}
