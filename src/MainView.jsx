@@ -20,9 +20,9 @@ function Function({ data }) {
       <Typography variant={"body2"}>
         { data.Help }
       </Typography>
-      <Typography variant={"h6"}>
+      <Title>
         { "Function arguments" }
-      </Typography>
+      </Title>
       <Table headers={["Type", "Default Value"]} rows={data.Arguments} />
     </>
   );
@@ -48,7 +48,7 @@ function PropertyOwners({ data, setSelectedItem, select, searchAssetTypes }) {
   return (
     <>
       <Title>
-        {"Property Owners"}
+        { "Property Owners" }
       </Title>
       <Table
         headers={["Type"]}
@@ -64,7 +64,7 @@ function Properties({ data, setSelectedItem }) {
   return (
     <>
       <Title>
-        {"Properties"}
+        { "Properties" }
       </Title>
       <Table headers={["Description"]} rows={data} setSelectedItem={setSelectedItem} />
     </>
@@ -75,7 +75,7 @@ function Property({ data }) {
   return (
     <>
       <Title>
-        {'Property'}
+        { "Property" }
       </Title>
       <Table
         headers={["URI", "Gui Name", "Type"]}
@@ -89,7 +89,7 @@ function Members({ data }) {
   return (
     <>
       <Title>
-        {"Class Members"}
+        { "Class Members" }
       </Title>
       <Table headers={["Description", "Documentation", "Optional", "Type"]} rows={data} />
     </>
@@ -100,7 +100,7 @@ function Classes({ data, setSelectedItem }) {
   return (
     <>
       <Title>
-        {"Classes"}
+        { "Classes" }
       </Title>
       <Table headers={[]} rows={data} setSelectedItem={setSelectedItem} />
     </>
@@ -111,7 +111,7 @@ function License({ data, setSelectedItem }) {
   return (
     <>
       <Title>
-        {"Licenses"}
+        { "Licenses" }
       </Title>
       <Table headers={[]} rows={data} setSelectedItem={setSelectedItem} />
     </>
@@ -122,7 +122,7 @@ function LicenseAsset({ data }) {
   return (
     <>
       <Title>
-        {"Assets"}
+        { "Assets" }
       </Title>
       <Table headers={["Description", "Author", "Path", "Url"]} rows={data} />
     </>
@@ -133,7 +133,7 @@ function Profile({ data }) {
   return (
     <>
       <Title>
-        {data.profileName}
+        { data.profileName }
       </Title>
       <Table headers={["Author", "License", "Version", "Url"]} rows={[data]} />
     </>
@@ -148,8 +148,16 @@ function Type({ setSelectedItem, searchAssetTypes, type }) {
   }
 
   return (
-    <Box sx={{ display: 'flex', gap: '5px', justifyContent: 'end', marginLeft: 'auto' }}>
-      <Typography sx={{ fontStyle: 'italic', color: 'grey'}} variant={"p"}>{"Asset Type"}</Typography>
+    <Box sx={{
+      display: 'flex',
+      gap: '5px',
+      justifyContent: 'end',
+      marginLeft: 'auto',
+      alignItems: 'center'
+    }}>
+      <Typography sx={{ fontStyle: 'italic', color: 'grey' }} variant={"p"}>
+        {"Asset Type"}
+      </Typography>
       <Link
         sx={{ fontStyle: 'italic' }}
         component={"button"}
@@ -162,7 +170,14 @@ function Type({ setSelectedItem, searchAssetTypes, type }) {
   );
 }
 
-export default function MainView({ searchAssetTypes, data, setSelectedItem, breadcrumbs, selectBreadcrumb }) {
+export default function MainView({
+  searchAssetTypes,
+  data,
+  setSelectedItem,
+  breadcrumbs,
+  selectBreadcrumb
+}) {
+
   function select(data) {
     const label = data?.Name ?? data?.Identifier ?? data?.id;
     setSelectedItem(data, [...breadcrumbs, label]);
@@ -212,7 +227,7 @@ export default function MainView({ searchAssetTypes, data, setSelectedItem, brea
         <Typography variant={"h4"} sx={{ padding: '20px 0'}}>
           { data?.Name }
         </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '50px' }}>
           { data?.Description &&
             <Typography variant={"p"} sx={{ fontStyle: 'italic'}}>
               {data.Description}
