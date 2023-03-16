@@ -9,7 +9,6 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 
 function CellLink({onClick, row, name}) {
   return (
@@ -55,11 +54,16 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
     return null;
   }
 
+  const greyColor = (theme) => {
+    return theme.palette.mode === 'dark' ? theme.palette.grey['A700'] : theme.palette.grey['300'] ;
+  };
+
   return (
     <TableContainer component={Paper} >
       <Table aria-label="simple table">
         <TableHead>
-          <TableRow>
+          <TableRow sx={{ backgroundColor: greyColor }
+          } >
             <TableCell>{"Name"}</TableCell>
             {headers.map(title => <TableCell>{ title }</TableCell>)}
           </TableRow>
@@ -92,7 +96,24 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
                     return <CellLink onClick={cellFunc.Function} row={row} name={row[cellFunc.Name]} />;
                   }
                   if (!Array.isArray(row[header])) {
-                    return <TableCell sx={{ overflowWrap: 'anywhere' }}><p>{String(row[header])}</p></TableCell>
+                    let value = row[header];
+                    if (typeof row[header] === 'boolean') {
+                      const text = value ? 'Yes' : 'No';
+
+                      value = (
+                        <Box
+                          sx={{
+                            backgroundColor: text === 'No' && greyColor,
+                            padding: '5px 0px',
+                            borderRadius: '5px',
+                            textAlign: 'center'
+                          }}
+                        >
+                        {text}
+                      </Box>
+                      );
+                    }
+                    return <TableCell sx={{ overflowWrap: 'anywhere' }}>{value}</TableCell>
                   }
                 })}
               </TableRow>

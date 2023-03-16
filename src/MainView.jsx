@@ -8,7 +8,7 @@ import Footer from './Footer';
 
 function Title({ children }) {
   return (
-    <Typography variant={"h5"} sx={{ paddingTop: '35px' }}>
+    <Typography variant={"h5"} sx={{ padding: '35px 0 10px 0' }}>
       {children}
     </Typography>
   );
