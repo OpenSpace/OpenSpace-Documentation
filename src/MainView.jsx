@@ -37,7 +37,7 @@ function PropertyOwners({ data, setSelectedItem }) {
           <Typography variant="h5">
             { "Property Owners" }
           </Typography>
-          <Table headers={[]} rows={data} setSelectedItem={setSelectedItem} />
+          <Table headers={["Type"]} rows={data} setSelectedItem={setSelectedItem} />
         </>
       )
 }
@@ -119,10 +119,13 @@ function Profile({ data }) {
   );
 }
 
-export default function MainView({ data, setSelectedItem, breadcrumbs, selectBreadcrumb }) {
+export default function MainView({ assetTypes, data, setSelectedItem, breadcrumbs, selectBreadcrumb }) {
   function select(data) {
     const label = data?.Name ?? data?.Identifier ?? data?.id;
     setSelectedItem(data, [...breadcrumbs, label]);
+  }
+
+  function findAssetType(type) {
   }
 
   return (
@@ -169,7 +172,9 @@ export default function MainView({ data, setSelectedItem, breadcrumbs, selectBre
         <Typography variant="h4">
           { data?.Name }
         </Typography>
+        { data?.Properties?.length > 0 && data?.Type && <Typography variant={"p"}>Type: {data?.Type}</Typography>}
         { data?.Description && <Typography variant={"p"}>{data.Description}</Typography>}
+        
         { data?.Functions && <Library data={data} setSelectedItem={select} /> }
         { data?.Arguments && <Function data={data} />}
         { data?.Properties?.length > 0 && <Properties data={data.Properties} setSelectedItem={select} />}
