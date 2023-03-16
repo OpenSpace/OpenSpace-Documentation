@@ -9,6 +9,7 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 function CellLink({onClick, row, name}) {
   return (
@@ -55,8 +56,8 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
   }
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ }} aria-label="simple table">
+    <TableContainer component={Paper} >
+      <Table aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>{"Name"}</TableCell>
@@ -68,7 +69,7 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
             <>
               <TableRow
                 key={row?.Name || row?.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
               >
                 <CellLink onClick={setSelectedItem} row={row} name={row?.Name ?? row?.id} />
                 {headers.map((header) => {
@@ -80,7 +81,7 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
                       <>
                         <TableCell>
                           <Box sx={{ display:'flex', alignItems: 'center' }}>
-                            {row[header]}
+                            <p style={{ wordBreak: 'break-all'}}>{row[header]}</p>
                             <CopyUriButton uri={row.URI} />
                           </Box>
                         </TableCell>
@@ -90,7 +91,9 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
                   if (cellFunc && cellFunc.Name === header) {
                     return <CellLink onClick={cellFunc.Function} row={row} name={row[cellFunc.Name]} />;
                   }
-                  return !Array.isArray(row[header]) && <TableCell>{row[header]}</TableCell>;
+                  return !Array.isArray(row[header]) && (
+                    <TableCell sx={{ overflowWrap: 'anywhere'}}>{row[header]}</TableCell>
+                  );
                 })}
               </TableRow>
             </>
