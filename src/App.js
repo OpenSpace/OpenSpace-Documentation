@@ -134,27 +134,27 @@ function App() {
   );
 
   return (
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-          <Box sx={{ display: "flex" }}>
-          <Header
-            setSearchText={setSearchText}
-            setSelectedItem={select}
-            searchSelectedItem={searchSelectedItem}
-            searchDocumentation={searchDocumentation}
-          >
-            <ToggleMode />
-          </Header>
-          <SideBar data={data.documentation} setSelectedItem={select} />
-          <MainView
-            data={selectedItem}
-            setSelectedItem={select}
-            breadcrumbs={breadcrumbs}
-            selectBreadcrumb={selectBreadcrumb}
-            searchAssetTypes={searchAssetTypes}
-          />
-        </Box>
-      </ThemeProvider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+        <Box sx={{ display: "flex" }}>
+        <Header
+          setSearchText={setSearchText}
+          setSelectedItem={select}
+          searchSelectedItem={searchSelectedItem}
+          searchDocumentation={searchDocumentation}
+        >
+          <ToggleMode />
+        </Header>
+        <SideBar data={data.documentation} setSelectedItem={select} />
+        <MainView
+          data={selectedItem}
+          setSelectedItem={select}
+          breadcrumbs={breadcrumbs}
+          selectBreadcrumb={selectBreadcrumb}
+          searchAssetTypes={searchAssetTypes}
+        />
+      </Box>
+    </ThemeProvider>
   );
 }
 
