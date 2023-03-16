@@ -6,6 +6,10 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import Footer from './Footer';
 
+function openUrl(item) {
+  window.open(item.Url);
+}
+
 function Title({ children }) {
   return (
     <Typography variant={"h5"} sx={{ padding: '35px 0 10px 0' }}>
@@ -119,12 +123,17 @@ function License({ data, setSelectedItem }) {
 }
 
 function LicenseAsset({ data }) {
+  
   return (
     <>
       <Title>
         { "Assets" }
       </Title>
-      <Table headers={["Description", "Author", "Path", "Url"]} rows={data} />
+      <Table
+        headers={["Description", "Author", "Path", "Url"]}
+        rows={data}
+        cellFunc={{ Name: "Url", Function: openUrl }}
+      />
     </>
   );
 }
@@ -135,7 +144,11 @@ function Profile({ data }) {
       <Title>
         { data.profileName }
       </Title>
-      <Table headers={["Author", "License", "Version", "Url"]} rows={[data]} />
+      <Table
+        headers={["Author", "License", "Version", "Url"]}
+        rows={[data]}
+        cellFunc={{ Name: "Url", Function: openUrl }}
+      />
     </>
   );
 }

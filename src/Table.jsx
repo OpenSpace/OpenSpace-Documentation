@@ -18,6 +18,7 @@ function CellLink({onClick, row, name}) {
           component="button"
           variant="body2"
           onClick={() => onClick(row)}
+          sx={{ overflowWrap: 'anywhere', textAlign: 'left' }}
         >
           {name}
         </Link>
@@ -85,7 +86,7 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
                       <>
                         <TableCell>
                           <Box sx={{ display:'flex', alignItems: 'center' }}>
-                            <p style={{ wordBreak: 'break-all'}}>{row[header]}</p>
+                            <p style={{ overflowWrap: 'anywhere' }}>{row[header]}</p>
                             <CopyUriButton uri={row.URI} />
                           </Box>
                         </TableCell>
