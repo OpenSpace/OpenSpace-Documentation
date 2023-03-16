@@ -8,7 +8,7 @@ import Footer from './Footer';
 
 function Title({ children }) {
   return (
-    <Typography variant="h5" sx={{ paddingTop: '20px' }}>
+    <Typography variant={"h5"} sx={{ paddingTop: '35px' }}>
       {children}
     </Typography>
   );
@@ -17,10 +17,10 @@ function Title({ children }) {
 function Function({ data }) {
   return (
     <>
-      <Typography variant="body2">
+      <Typography variant={"body2"}>
         { data.Help }
       </Typography>
-      <Typography variant="h6">
+      <Typography variant={"h6"}>
         { "Function arguments" }
       </Typography>
       <Table headers={["Type", "Default Value"]} rows={data.Arguments} />
@@ -77,7 +77,10 @@ function Property({ data }) {
       <Title>
         {'Property'}
       </Title>
-      <Table headers={["URI", "Gui Name", "Type"]} rows={[data]} />
+      <Table
+        headers={["URI", "Gui Name", "Type"]}
+        rows={[data]}
+      />
     </>
   );
 }
@@ -184,21 +187,21 @@ export default function MainView({ searchAssetTypes, data, setSelectedItem, brea
         }}
       >
       <Toolbar />
-        <Breadcrumbs aria-label="breadcrumb">
+        <Breadcrumbs aria-label={"breadcrumb"}>
           {breadcrumbs?.map((crumb, index) => {
             if (index === breadcrumbs.length - 1) {
-              return <Typography color="text.primary">{crumb}</Typography>;
+              return <Typography color={"text.primary"}>{crumb}</Typography>;
             }
             else {
               return (
                 <Link
-                  component="button"
-                  variant="body1"
+                  component={"button"}
+                  variant={"body1"}
                   onClick={() => {
                     selectBreadcrumb(breadcrumbs.slice(0, index + 1));
                   }}
-                  underline="hover" 
-                  color="inherit"
+                  underline={"hover"} 
+                  color={"inherit"}
                 >
                   {crumb}
                 </Link>
@@ -206,14 +209,15 @@ export default function MainView({ searchAssetTypes, data, setSelectedItem, brea
             }
           })}
         </Breadcrumbs>
-        <Typography variant="h4">
+        <Typography variant={"h4"} sx={{ padding: '20px 0'}}>
           { data?.Name }
         </Typography>
-        {data?.Properties?.length > 0 && data?.Type &&
-          <Type type={data.Type} searchAssetTypes={searchAssetTypes} setSelectedItem={setSelectedItem} />
-        }
-        { data?.Description && <Typography variant={"p"}>{data.Description}</Typography>}
-        
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          { data?.Description && <Typography variant={"p"}>{data.Description}</Typography>}
+          {data?.Properties?.length > 0 && data?.Type &&
+            <Type type={data.Type} searchAssetTypes={searchAssetTypes} setSelectedItem={setSelectedItem} />
+          }
+        </Box>
         { data?.Functions && <Library data={data} setSelectedItem={select} /> }
         { data?.Arguments && <Function data={data} />}
         { data?.Properties?.length > 0 && <Properties data={data.Properties} setSelectedItem={select} />}
