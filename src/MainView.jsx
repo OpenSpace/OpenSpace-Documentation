@@ -55,7 +55,7 @@ function PropertyOwners({ data, setSelectedItem, select, searchAssetTypes }) {
 function Properties({ data, setSelectedItem }) {
   return (
         <>
-          <Typography variant="h5">
+          <Typography variant="h5" sx={{ paddingTop: '20px'}}>
             { "Properties" }
           </Typography>
           <Table headers={["Description"]} rows={data} setSelectedItem={setSelectedItem} />
