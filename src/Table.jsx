@@ -91,9 +91,9 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
                   if (cellFunc && cellFunc.Name === header) {
                     return <CellLink onClick={cellFunc.Function} row={row} name={row[cellFunc.Name]} />;
                   }
-                  return !Array.isArray(row[header]) && (
-                    <TableCell sx={{ overflowWrap: 'anywhere'}}>{row[header]}</TableCell>
-                  );
+                  if (!Array.isArray(row[header])) {
+                    return <TableCell sx={{ overflowWrap: 'anywhere' }}><p>{String(row[header])}</p></TableCell>
+                  }
                 })}
               </TableRow>
             </>
