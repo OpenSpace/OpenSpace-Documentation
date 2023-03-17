@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
-function CellLink({onClick, row, name}) {
+function CellLink({onClick, row, name, style}) {
   return (
     <TableCell component="th" scope="row" >
       {onClick ?
@@ -18,7 +18,7 @@ function CellLink({onClick, row, name}) {
           component="button"
           variant="body2"
           onClick={() => onClick(row)}
-          sx={{ overflowWrap: 'anywhere', textAlign: 'left' }}
+          sx={{ textAlign: 'left', ...style }}
         >
           {name}
         </Link>
@@ -93,7 +93,11 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
                       </>
                     );
                   }
+                  
                   if (cellFunc && cellFunc.Name === header) {
+                    if (header === 'Url') { 
+                      return <CellLink onClick={cellFunc.Function} row={row} name={row[cellFunc.Name]} style={{overflowWrap: 'anywhere'}} />;
+                    }
                     return <CellLink onClick={cellFunc.Function} row={row} name={row[cellFunc.Name]} />;
                   }
                   if (!Array.isArray(row[header])) {

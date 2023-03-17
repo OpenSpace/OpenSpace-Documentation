@@ -242,7 +242,7 @@ export default function MainView({
         </Typography>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '50px' }}>
           { data?.Description &&
-            <Typography variant={"p"} sx={{ fontStyle: 'italic'}}>
+            <Typography variant={"p"}>
               {data.Description}
             </Typography>
           }
