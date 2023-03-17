@@ -183,7 +183,7 @@ function Type({ setSelectedItem, searchAssetTypes, type }) {
       alignItems: 'center'
     }}>
       <Typography sx={{ fontStyle: 'italic', color: 'grey', whiteSpace: 'nowrap' }} variant={"p"}>
-        {"Asset Type"}
+        {"Type"}
       </Typography>
       <Link
         sx={{ fontStyle: 'italic' }}
@@ -264,7 +264,7 @@ export default function MainView({
             <Type type={data.Type} searchAssetTypes={searchAssetTypes} setSelectedItem={setSelectedItem} />
           }
         </Box>
-        {data.Tags.length > 0 && (
+        {data?.Tags?.length > 0 && (
           <Typography variant={"p"} sx={{ fontStyle: 'italic', color: 'grey', marginTop: '20px' }}>
             {`Tags:${data.Tags.map(tag => " " + tag)}`}
           </Typography>
