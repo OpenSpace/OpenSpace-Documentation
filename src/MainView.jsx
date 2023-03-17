@@ -168,7 +168,7 @@ function Type({ setSelectedItem, searchAssetTypes, type }) {
       marginLeft: 'auto',
       alignItems: 'center'
     }}>
-      <Typography sx={{ fontStyle: 'italic', color: 'grey' }} variant={"p"}>
+      <Typography sx={{ fontStyle: 'italic', color: 'grey', whiteSpace: 'nowrap' }} variant={"p"}>
         {"Asset Type"}
       </Typography>
       <Link
