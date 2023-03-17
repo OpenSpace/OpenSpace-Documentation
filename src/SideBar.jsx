@@ -4,8 +4,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ResizeableDrawer from './ResizeableDrawer';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import { Divider } from '@mui/material';
+import Divider from '@mui/material/Divider';
 
 export default function SideBar({ data, setSelectedItem }) {
 

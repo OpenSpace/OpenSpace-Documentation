@@ -7,7 +7,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import logo from './img/logo.png'; // Tell webpack this JS file uses this image
 import { Popover } from '@mui/material';
 import { Divider } from '@mui/material';
 
@@ -104,7 +103,7 @@ function Header({ searchDocumentation, searchSelectedItem, setSearchText, setSel
             }}
             onClick={() => setSelectedItem([], [])}>
             <img
-              src={logo}
+              src={"/logo.png"}
               alt={`OpenSpace Logo`}
               style={{ maxWidth: '200px' }}
               />
