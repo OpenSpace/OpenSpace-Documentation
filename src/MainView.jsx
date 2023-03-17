@@ -250,6 +250,11 @@ export default function MainView({
             <Type type={data.Type} searchAssetTypes={searchAssetTypes} setSelectedItem={setSelectedItem} />
           }
         </Box>
+        {data.Tags.length > 0 && (
+          <Typography variant={"p"} sx={{ fontStyle: 'italic', color: 'grey', marginTop: '20px' }}>
+            {`Tags:${data.Tags.map(tag => " " + tag)}`}
+          </Typography>
+        )}
         { data?.Functions && <Library data={data} setSelectedItem={select} /> }
         { data?.Arguments && <Function data={data} />}
         { data?.Properties?.length > 0 && <Properties data={data.Properties} setSelectedItem={select} />}
