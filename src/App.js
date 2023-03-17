@@ -8,9 +8,10 @@ import MainView from './MainView';
 import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import { data } from "./documentationData.js";
 import IconButton from '@mui/material/IconButton';
 import { useColorMode } from './ColorModeContext';
+
+let data = window.data;
 
 const HeaderColor = '#3d3d3d';
 
