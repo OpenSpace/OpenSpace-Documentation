@@ -110,7 +110,7 @@ function App() {
   function searchAssetTypes(string) {
     let results = [];
     const assets = data.documentation.find(item => item.Name === "Asset Types");
-    search(results, [], assets, string);
+    search(results, ["Asset Types"], assets, string);
     return results[0];
   }
 
