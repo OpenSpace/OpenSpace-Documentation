@@ -11,7 +11,7 @@ export default function SideBar({ data, setSelectedItem }) {
   function renderTree(data, parents) {
     const identifier = data?.Identifier ?? data?.Name;
     const label = data?.Name ?? data?.Identifier;
-    const nestedData = data.Data;
+    const nestedData = data?.Data;
     return identifier && (
       <TreeItem
         key={identifier}

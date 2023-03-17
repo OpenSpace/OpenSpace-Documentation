@@ -89,6 +89,20 @@ function Property({ data }) {
   );
 }
 
+function Keybindings({ data }) {
+  return (
+    <>
+      <Title>
+        { "Keybindings" }
+      </Title>
+      <Table
+        headers={["Action"]}
+        rows={data}
+      />
+    </>
+  );
+}
+
 function Members({ data }) {
   return (
     <>
@@ -271,6 +285,7 @@ export default function MainView({
         { data?.Assets && <LicenseAsset data={data.Assets} />}
         { data?.Author && <Profile data={data} />}
         { data?.URI && <Property data={data} />}
+        { data?.Keybindings && <Keybindings data={data.Keybindings} />}
       </Box>
       <Footer />
     </Box>
