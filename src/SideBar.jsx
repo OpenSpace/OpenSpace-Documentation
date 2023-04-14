@@ -37,10 +37,10 @@ export default function SideBar({ data, setSelectedItem }) {
         >
         {data.map((item, index) => {
           // Add a divider after the first two items
-          if (index === 2) {
+          if (index === 4) {
             return (
               <>
-                <Divider key={"divider"} />
+                <Divider key={"divider"} sx={{ marginTop: '10px', marginBottom: '10px' }} />
                 {renderTree(item, [])}
               </>);
           }
