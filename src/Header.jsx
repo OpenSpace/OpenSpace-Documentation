@@ -9,6 +9,7 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { Popover } from '@mui/material';
 import { Divider } from '@mui/material';
+import Link from '@mui/material/Link';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -54,11 +55,34 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 function SearchCard({ data, crumbs, setSelectedItem }) {
   return (
-    <Box sx={{ cursor: 'pointer', maxWidth: '100%' }} onClick={() => setSelectedItem(data, crumbs)}>
-      <Typography key={`all${data?.Name}`} sx={{ p: 2, paddingBottom: 0}} >
+    <Box
+      sx={{
+        cursor: 'pointer',
+        maxWidth: '100%',
+        '&:hover': {
+          backgroundColor: (theme) => {
+            return theme.palette.mode === 'dark' ?
+              '#262424' :
+              theme.palette.grey['100'] 
+          }
+        }
+      }}
+      onClick={() => setSelectedItem(data, crumbs)}
+    >
+      <Link key={`all${data?.Name}`} sx={{ p: 2, pt: 1, pb: 0}} >
         {data?.Name}
-      </Typography>
-      <Typography sx={{ p: 2, paddingTop: 0, paddingBottom: 0, color: 'grey', overflowWrap: 'break-word'}}>
+      </Link>
+      <Typography
+        sx={{
+          p: 2,
+          pt: 0,
+          pb: 1,
+          color: (theme) => {
+            console.log(theme)
+            return theme.palette.text.secondary
+          },
+          overflowWrap: 'break-word',
+        }}>
         {crumbs.map(crumb => crumb + "/")}
       </Typography>
     </Box>
@@ -103,7 +127,7 @@ function Header({ searchDocumentation, searchSelectedItem, setSearchText, setSel
             }}
             onClick={() => setSelectedItem([], [])}>
             <img
-              src={"/logo.png"}
+              src={"./logo.png"}
               alt={`OpenSpace Logo`}
               style={{ maxWidth: '200px' }}
               />
@@ -154,13 +178,30 @@ function Header({ searchDocumentation, searchSelectedItem, setSearchText, setSel
                     display: 'flex',
                   }}>
                     <Box sx={{ width: "50%" }}>
-                      {searchResultsAll.map(({ data, crumbs }) =>
-                        SearchCard({ data, crumbs, setSelectedItem })
-                      )}
+                      <Typography variant={"h6"} sx={{ p: 2 }}>
+                        {"Search documentation"}
+                      </Typography>
+                      {searchResultsAll.length > 0 ?
+                        searchResultsAll.map(({ data, crumbs }) =>
+                          SearchCard({ data, crumbs, setSelectedItem })
+                        )
+                        : <Typography sx={{ p: 2 }}>
+                          {"No results"}
+                        </Typography>
+                      }
                     </Box>
                     <Divider orientation={'vertical'} />
                     <Box sx={{ width: "50%" }}>
-                      {searchResultsSelected.map(({ data, crumbs }) => SearchCard({ data, crumbs, setSelectedItem }))}
+                      <Typography variant={"h6"} sx={{ p: 2 }}>
+                        {"Search this page"}
+                      </Typography>
+                      {searchResultsSelected.length > 0 ?
+                        searchResultsSelected.map(({ data, crumbs }) =>
+                          SearchCard({ data, crumbs, setSelectedItem }))
+                        : <Typography sx={{ p: 2 }}>
+                          {"No results"}
+                        </Typography> 
+                      }
                     </Box>
                   </Box>
                 </Popover>
