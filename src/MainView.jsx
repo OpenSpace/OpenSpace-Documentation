@@ -32,7 +32,7 @@ function Function({ data }) {
   );
 }
 
-function Library({data, setSelectedItem}) {
+function Library({ data, setSelectedItem }) {
   return (
     <>
       <Title>

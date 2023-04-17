@@ -47,7 +47,7 @@ function ColorModeProvider(props) {
         setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
       },
     }),
-    [],
+    [setMode],
   );
  
   return <ColorModeContext.Provider value={[mode, colorMode.toggleColorMode]} {...props} />

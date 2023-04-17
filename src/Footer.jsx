@@ -25,7 +25,7 @@ export default function Footer() {
         <HomeRoundedIcon />
       </Link>
       <Link href="https://www.reddit.com/r/OpenSpaceProject/">
-        <RedditIcon fontSize={'medium'} onClick={() => console.log("click")} />
+        <RedditIcon fontSize={'medium'}/>
       </Link>
       <Link href="https://www.instagram.com/openspaceproj/">
         <InstagramIcon />

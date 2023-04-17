@@ -78,7 +78,6 @@ function SearchCard({ data, crumbs, setSelectedItem }) {
           pt: 0,
           pb: 1,
           color: (theme) => {
-            console.log(theme)
             return theme.palette.text.secondary
           },
           overflowWrap: 'break-word',
@@ -158,7 +157,7 @@ function Header({ searchDocumentation, searchSelectedItem, setSearchText, setSel
                 inputProps={{ 'aria-label': 'search' }}
                 onChange={onChange}
                 onFocus={onFocus}
-                onKeyPress={(event) => event.key == "Enter" && search()}
+                onKeyPress={(event) => event.key === "Enter" && search()}
               />
               {open && (
                 <Popover
