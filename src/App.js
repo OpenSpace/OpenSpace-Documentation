@@ -52,7 +52,7 @@ function App() {
       return;
     }
     let found = undefined;
-    crumbs.map(crumb => {
+    crumbs.forEach(crumb => {
       if (!found) {
         found = data.documentation;
       }
@@ -60,7 +60,7 @@ function App() {
         found = found.find(element => element.Name === crumb);
       }
       else if (typeof found === 'object') {
-        Object.values(found).map(value => {
+        Object.values(found).forEach(value => {
           if (Array.isArray(value)) {
             found = value.find(element => element.Name === crumb);
           }

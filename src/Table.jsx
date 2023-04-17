@@ -55,16 +55,60 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
     return null;
   }
 
-  const greyColor = (theme) => {
+  function greyColor(theme) {
     return theme.palette.mode === 'dark' ? theme.palette.grey['A700'] : theme.palette.grey['300'] ;
   };
+
+  function createCell(row, header) {
+    const key = `${row["Name"]}${row[header]}`;
+    if (header === 'Name') {
+      return null;
+    }
+    if (header === 'URI') {
+      return (
+        <>
+          <TableCell key={key}>
+            <Box sx={{ display:'flex', alignItems: 'center' }}>
+              <p style={{ overflowWrap: 'anywhere' }}>{row[header]}</p>
+              <CopyUriButton uri={row.URI} />
+            </Box>
+          </TableCell>
+        </>
+      );
+    }
+    if (cellFunc && cellFunc.Name === header) {
+      if (header === 'Url') { 
+        return <CellLink key={key} onClick={cellFunc.Function} row={row} name={row[cellFunc.Name]} style={{overflowWrap: 'anywhere'}} />;
+      }
+      return <CellLink key={key} onClick={cellFunc.Function} row={row} name={row[cellFunc.Name]} />;
+    }
+    if (typeof row[header] === 'boolean') {
+        const text = row[header] ? 'Yes' : 'No';
+        return (
+          <Box
+            key={key}
+            sx={{
+              backgroundColor: text === 'No' && greyColor,
+              padding: '5px 0px',
+              borderRadius: '5px',
+              textAlign: 'center'
+            }}
+          >
+          {text}
+        </Box>
+        );
+      }
+    if (!Array.isArray(row[header])) {
+      return <TableCell key={key} sx={{ overflowWrap: 'anywhere' }}>{row[header]}</TableCell>
+    }
+  }
+
 
   return (
     <TableContainer component={Paper} >
       <Table aria-label="simple table">
         <TableHead>
-          <TableRow sx={{ backgroundColor: greyColor }
-          } >
+          <TableRow sx={{ backgroundColor: greyColor }}>
             <TableCell>{"Name"}</TableCell>
             {headers.map(title => <TableCell>{ title }</TableCell>)}
           </TableRow>
@@ -77,50 +121,7 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
                 sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
               >
                 <CellLink onClick={setSelectedItem} row={row} name={row?.Name ?? row?.id} />
-                {headers.map((header) => {
-                  if (header === 'name') {
-                    return null;
-                  }
-                  if (header === 'URI') {
-                    return (
-                      <>
-                        <TableCell>
-                          <Box sx={{ display:'flex', alignItems: 'center' }}>
-                            <p style={{ overflowWrap: 'anywhere' }}>{row[header]}</p>
-                            <CopyUriButton uri={row.URI} />
-                          </Box>
-                        </TableCell>
-                      </>
-                    );
-                  }
-                  
-                  if (cellFunc && cellFunc.Name === header) {
-                    if (header === 'Url') { 
-                      return <CellLink onClick={cellFunc.Function} row={row} name={row[cellFunc.Name]} style={{overflowWrap: 'anywhere'}} />;
-                    }
-                    return <CellLink onClick={cellFunc.Function} row={row} name={row[cellFunc.Name]} />;
-                  }
-                  if (!Array.isArray(row[header])) {
-                    let value = row[header];
-                    if (typeof row[header] === 'boolean') {
-                      const text = value ? 'Yes' : 'No';
-
-                      value = (
-                        <Box
-                          sx={{
-                            backgroundColor: text === 'No' && greyColor,
-                            padding: '5px 0px',
-                            borderRadius: '5px',
-                            textAlign: 'center'
-                          }}
-                        >
-                        {text}
-                      </Box>
-                      );
-                    }
-                    return <TableCell sx={{ overflowWrap: 'anywhere' }}>{value}</TableCell>
-                  }
-                })}
+                {headers.map((header) => createCell(row, header))}
               </TableRow>
             </>
           ))}
