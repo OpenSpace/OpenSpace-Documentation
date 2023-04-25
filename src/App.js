@@ -10,7 +10,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import IconButton from '@mui/material/IconButton';
 import { useColorMode } from './ColorModeContext';
 
-let data = window.data;
+let data = window.data ? window.data : { "documentation" : []};
 
 const HeaderColor = '#3d3d3d';
 
@@ -40,7 +40,7 @@ function App() {
   const [breadcrumbs, setBreadcrumbs] = React.useState([]);
   const [searchText, setSearchText] = React.useState(null);
   const [mode, toggleMode] = useColorMode();
-
+  console.log(data)
   function select(data, parents) {
     setBreadcrumbs(parents);
     setSelectedItem(data);
