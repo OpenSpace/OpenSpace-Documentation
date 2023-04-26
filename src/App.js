@@ -57,12 +57,12 @@ function App() {
         found = data.documentation;
       }
       if (Array.isArray(found)) {
-        found = found.find(element => element.name === crumb);
+        found = found.find(element => (element.name === crumb || element?.fullName === crumb));
       }
       else if (typeof found === 'object') {
         Object.values(found).forEach(value => {
           if (Array.isArray(value)) {
-            found = value.find(element => element.name === crumb);
+            found = value.find(element => (element.name === crumb || element?.fullName === crumb));
           }
         })
       }

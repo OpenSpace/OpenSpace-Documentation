@@ -9,13 +9,12 @@ import Divider from '@mui/material/Divider';
 export default function SideBar({ data, setSelectedItem }) {
 
   function renderTree(data, parents) {
-    const identifier = data?.identifier ?? data?.name;
-    let label = data?.name ?? data?.identifier;
+    let label = data?.fullName ?? data.name;
 
-    return identifier && (
+    return label && (
       <TreeItem
-        key={identifier}
-        nodeId={identifier}
+        key={label}
+        nodeId={label}
         label={label}
         onClick={() => {
           setSelectedItem(data, [...parents, label])
