@@ -9,9 +9,9 @@ import Divider from '@mui/material/Divider';
 export default function SideBar({ data, setSelectedItem }) {
 
   function renderTree(data, parents) {
-    const identifier = data?.Identifier ?? data?.Name;
-    const label = data?.Name ?? data?.Identifier;
-    const nestedData = data?.Data;
+    const identifier = data?.identifier ?? data?.name;
+    let label = data?.name ?? data?.identifier;
+
     return identifier && (
       <TreeItem
         key={identifier}
@@ -21,7 +21,7 @@ export default function SideBar({ data, setSelectedItem }) {
           setSelectedItem(data, [...parents, label])
         }}
       >
-        {Array.isArray(nestedData) && nestedData.map((item) => renderTree(item, [...parents, label]))}
+        {Array.isArray(data?.data) && data.data.map((item) => renderTree(item, [...parents, label]))}
       </TreeItem>
     );
   }

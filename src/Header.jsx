@@ -69,8 +69,8 @@ function SearchCard({ data, crumbs, setSelectedItem }) {
       }}
       onClick={() => setSelectedItem(data, crumbs)}
     >
-      <Link key={`all${data?.Name}`} sx={{ p: 2, pt: 1, pb: 0}} >
-        {data?.Name}
+      <Link key={`all${data?.name}`} sx={{ p: 2, pt: 1, pb: 0}} >
+        {data?.name}
       </Link>
       <Typography
         sx={{

@@ -57,12 +57,12 @@ function App() {
         found = data.documentation;
       }
       if (Array.isArray(found)) {
-        found = found.find(element => element.Name === crumb);
+        found = found.find(element => element.name === crumb);
       }
       else if (typeof found === 'object') {
         Object.values(found).forEach(value => {
           if (Array.isArray(value)) {
-            found = value.find(element => element.Name === crumb);
+            found = value.find(element => element.name === crumb);
           }
         })
       }
@@ -74,19 +74,19 @@ function App() {
   function search(searchResults, parents, documentationData, string = searchText) {
     if (!string) return;
     if (Array.isArray(documentationData)) {
-      documentationData.map(item => search(searchResults, [...parents, item.Name], item, string));
+      documentationData.map(item => search(searchResults, [...parents, item.name], item, string));
     }
     else if (typeof documentationData === 'object') {
-      const found = documentationData.Name.toLowerCase().includes(string.toLowerCase());
+      const found = documentationData.name.toLowerCase().includes(string.toLowerCase());
       if (found) {
         searchResults.push({ data: documentationData, crumbs: parents });
       }
       Object.values(documentationData).map(nestedData => {
         if (Array.isArray(nestedData)) {
-          nestedData.map(item => search(searchResults, [...parents, item.Name], item, string))
+          nestedData.map(item => search(searchResults, [...parents, item.name], item, string))
         } 
         else {
-          search(searchResults, [...parents, nestedData.Name], nestedData, string)
+          search(searchResults, [...parents, nestedData.name], nestedData, string)
         }
       });
     }
@@ -109,7 +109,7 @@ function App() {
 
   function searchAssetTypes(string) {
     let results = [];
-    const assets = data.documentation.find(item => item.Name === "Asset Types");
+    const assets = data.documentation.find(item => item.name === "Asset Types");
     search(results, ["Asset Types"], assets, string);
     return results[0];
   }

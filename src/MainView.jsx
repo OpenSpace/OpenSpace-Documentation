@@ -7,7 +7,7 @@ import Link from '@mui/material/Link';
 import Footer from './Footer';
 
 function openUrl(item) {
-  window.open(item.Url);
+  window.open(item.url);
 }
 
 function Title({ children }) {
@@ -27,7 +27,7 @@ function Function({ data }) {
       <Title>
         { "Function arguments" }
       </Title>
-      <Table headers={["Type", "Default Value"]} rows={data.Arguments} />
+      <Table headers={["type", "defaultValue"]} rows={data.arguments} />
     </>
   );
 }
@@ -38,7 +38,7 @@ function Library({ data, setSelectedItem }) {
       <Title>
         { "Functions" }
       </Title>
-      <Table headers={["Help"]} rows={data.Functions} setSelectedItem={setSelectedItem} />
+      <Table headers={["help"]} rows={data.functions} setSelectedItem={setSelectedItem} />
     </>
   );
 }
@@ -46,19 +46,20 @@ function Library({ data, setSelectedItem }) {
 function PropertyOwners({ data, setSelectedItem, select, searchAssetTypes }) {
 
   function findAssetType(data) {
-    const found = searchAssetTypes(data.Type);
+    const found = searchAssetTypes(data.type);
     setSelectedItem(found.data, found.crumbs);
   }
+
   return (
     <>
       <Title>
         { "Property Owners" }
       </Title>
       <Table
-        headers={["Type"]}
+        headers={["type"]}
         rows={data}
         setSelectedItem={select}
-        cellFunc={{ Name: "Type", Function: findAssetType }}
+        cellFunc={{ name: "type", Function: findAssetType }}
       />
     </>
   );
@@ -70,7 +71,7 @@ function Properties({ data, setSelectedItem }) {
       <Title>
         { "Properties" }
       </Title>
-      <Table headers={["Description"]} rows={data} setSelectedItem={setSelectedItem} />
+      <Table headers={["description"]} rows={data} setSelectedItem={setSelectedItem} />
     </>
   );
 }
@@ -82,7 +83,7 @@ function Property({ data }) {
         { "Property" }
       </Title>
       <Table
-        headers={["URI", "Gui Name", "Type"]}
+        headers={["uri", "guiName", "type"]}
         rows={[data]}
       />
     </>
@@ -96,7 +97,7 @@ function Keybindings({ data }) {
         { "Keybindings" }
       </Title>
       <Table
-        headers={["Action"]}
+        headers={["action"]}
         rows={data}
       />
     </>
@@ -109,7 +110,7 @@ function Members({ data }) {
       <Title>
         { "Class Members" }
       </Title>
-      <Table headers={["Description", "Documentation", "Optional", "Type"]} rows={data} />
+      <Table headers={["description", "documentation", "optional", "type"]} rows={data} />
     </>
   );
 }
@@ -144,9 +145,9 @@ function LicenseAsset({ data }) {
         { "Assets" }
       </Title>
       <Table
-        headers={["Description", "Author", "Path", "Url"]}
+        headers={["description", "author", "path", "url"]}
         rows={data}
-        cellFunc={{ Name: "Url", Function: openUrl }}
+        cellFunc={{ name: "url", Function: openUrl }}
       />
     </>
   );
@@ -159,9 +160,9 @@ function Profile({ data }) {
         { data.profileName }
       </Title>
       <Table
-        headers={["Author", "License", "Version", "Url"]}
+        headers={["author", "license", "version", "url"]}
         rows={[data]}
-        cellFunc={{ Name: "Url", Function: openUrl }}
+        cellFunc={{ name: "url", Function: openUrl }}
       />
     </>
   );
@@ -206,7 +207,7 @@ export default function MainView({
 }) {
 
   function select(data) {
-    const label = data?.Name ?? data?.Identifier ?? data?.id;
+    const label = data?.name ?? data?.Identifier ?? data?.id;
     setSelectedItem(data, [...breadcrumbs, label]);
   }
 
@@ -252,40 +253,40 @@ export default function MainView({
           })}
         </Breadcrumbs>
         <Typography variant={"h4"} sx={{ padding: '20px 0'}}>
-          { data?.Name }
+          { data?.name }
         </Typography>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '50px' }}>
-          { data?.Description &&
+          { data?.description &&
             <Typography variant={"p"}>
-              {data.Description}
+              {data.description}
             </Typography>
           }
-          { data?.Properties?.length > 0 && data?.Type &&
-            <Type type={data.Type} searchAssetTypes={searchAssetTypes} setSelectedItem={setSelectedItem} />
+          { data?.properties?.length > 0 && data?.type &&
+            <Type type={data.type} searchAssetTypes={searchAssetTypes} setSelectedItem={setSelectedItem} />
           }
         </Box>
-        {data?.Tags?.length > 0 && (
+        {data?.tags?.length > 0 && (
           <Typography variant={"p"} sx={{ fontStyle: 'italic', color: 'grey', marginTop: '20px' }}>
-            {`Tags:${data.Tags.map(tag => " " + tag)}`}
+            {`Tags:${data.tags.map(tag => " " + tag)}`}
           </Typography>
         )}
-        { data?.Functions && <Library data={data} setSelectedItem={select} /> }
-        { data?.Arguments && <Function data={data} />}
-        { data?.Properties?.length > 0 && <Properties data={data.Properties} setSelectedItem={select} />}
-        { data?.PropertyOwners?.length > 0 &&
+        { data?.functions && <Library data={data} setSelectedItem={select} /> }
+        { data?.arguments && <Function data={data} />}
+        { data?.properties?.length > 0 && <Properties data={data.properties} setSelectedItem={select} />}
+        { data?.propertyOwners?.length > 0 &&
           <PropertyOwners
-            data={data.PropertyOwners}
+            data={data.propertyOwners}
             setSelectedItem={setSelectedItem}
             select={select}
             searchAssetTypes={searchAssetTypes}
           />}
-        { data?.Classes?.length > 0 && <Classes data={data.Classes} setSelectedItem={select} />}
-        { data?.Members?.length > 0 && <Members data={data.Members} setSelectedItem={select} />}
-        { data?.Licenses && <License data={data.Licenses} setSelectedItem={select} />}
-        { data?.Assets && <LicenseAsset data={data.Assets} />}
-        { data?.Author && <Profile data={data} />}
-        { data?.URI && <Property data={data} />}
-        { data?.Keybindings && <Keybindings data={data.Keybindings} />}
+        { data?.classes?.length > 0 && <Classes data={data.classes} setSelectedItem={select} />}
+        { data?.members?.length > 0 && <Members data={data.members} setSelectedItem={select} />}
+        { data?.licenses && <License data={data.licenses} setSelectedItem={select} />}
+        { data?.assets && <LicenseAsset data={data.assets} />}
+        { data?.author && <Profile data={data} />}
+        { data?.uri && <Property data={data} />}
+        { data?.keybindings && <Keybindings data={data.keybindings} />}
       </Box>
       <Footer />
     </Box>

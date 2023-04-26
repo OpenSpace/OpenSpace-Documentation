@@ -60,11 +60,11 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
   };
 
   function createCell(row, header) {
-    const key = `${row["Name"]}${row[header]}`;
-    if (header === 'Name') {
+    const key = `${row["name"]}${row[header]}`;
+    if (header === 'name') {
       return null;
     }
-    if (header === 'URI') {
+    if (header === 'uri') {
       return (
         <>
           <TableCell key={key}>
@@ -76,11 +76,11 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
         </>
       );
     }
-    if (cellFunc && cellFunc.Name === header) {
-      if (header === 'Url') { 
-        return <CellLink key={key} onClick={cellFunc.Function} row={row} name={row[cellFunc.Name]} style={{overflowWrap: 'anywhere'}} />;
+    if (cellFunc && cellFunc.name === header) {
+      if (header === 'url') { 
+        return <CellLink key={key} onClick={cellFunc.Function} row={row} name={row[cellFunc.name]} style={{overflowWrap: 'anywhere'}} />;
       }
-      return <CellLink key={key} onClick={cellFunc.Function} row={row} name={row[cellFunc.Name]} />;
+      return <CellLink key={key} onClick={cellFunc.Function} row={row} name={row[cellFunc.name]} />;
     }
     if (typeof row[header] === 'boolean') {
         const text = row[header] ? 'Yes' : 'No';
@@ -103,6 +103,14 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
     }
   }
 
+  function makeReadableText(text) {
+    // Make first letter capitalized
+    const capitalized = `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
+    // Split CamelCase word into array where the uppercase letters are
+    const words = capitalized.split(/(?=[A-Z])/);
+    return words.join(' ');
+  }
+
 
   return (
     <TableContainer component={Paper} >
@@ -110,17 +118,17 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
         <TableHead>
           <TableRow sx={{ backgroundColor: greyColor }}>
             <TableCell>{"Name"}</TableCell>
-            {headers.map(title => <TableCell>{ title }</TableCell>)}
+            {headers.map(title => <TableCell>{ makeReadableText(title) }</TableCell>)}
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
             <>
               <TableRow
-                key={row?.Name || row?.id}
+                key={row?.name || row?.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
               >
-                <CellLink onClick={setSelectedItem} row={row} name={row?.Name ?? row?.id} />
+                <CellLink onClick={setSelectedItem} row={row} name={row?.name ?? row?.id} />
                 {headers.map((header) => createCell(row, header))}
               </TableRow>
             </>
