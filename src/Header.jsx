@@ -182,7 +182,7 @@ function Header({ searchDocumentation, searchSelectedItem, setSearchText, setSel
                       </Typography>
                       {searchResultsAll.length > 0 ?
                         searchResultsAll.map(({ data, crumbs }) =>
-                          SearchCard({ data, crumbs, setSelectedItem })
+                          <SearchCard key={`card${[...crumbs]}`} data={data} crumbs={crumbs} setSelectedItem={setSelectedItem} />
                         )
                         : <Typography sx={{ p: 2 }}>
                           {"No results"}
@@ -196,7 +196,8 @@ function Header({ searchDocumentation, searchSelectedItem, setSearchText, setSel
                       </Typography>
                       {searchResultsSelected.length > 0 ?
                         searchResultsSelected.map(({ data, crumbs }) =>
-                          SearchCard({ data, crumbs, setSelectedItem }))
+                          <SearchCard key={`card${[...crumbs]}`} data={data} crumbs={crumbs} setSelectedItem={setSelectedItem} />
+                        )
                         : <Typography sx={{ p: 2 }}>
                           {"No results"}
                         </Typography> 

@@ -48,8 +48,51 @@ function CopyUriButton({ uri }) {
       </Button>
   );
 }
-  
-  
+
+function CellContent({ row, header, cellFunc, greyColor }) {
+  const key = `${row["name"]}${row[header]}`;
+  if (header === 'name') {
+    return null;
+  }
+  if (header === 'uri') {
+    return (
+      <>
+        <TableCell key={key}>
+          <Box sx={{ display:'flex', alignItems: 'center' }}>
+            <p style={{ overflowWrap: 'anywhere' }}>{row[header]}</p>
+            <CopyUriButton uri={row.URI} />
+          </Box>
+        </TableCell>
+      </>
+    );
+  }
+  if (cellFunc && cellFunc.name === header) {
+    if (header === 'url') { 
+      return <CellLink key={key} onClick={cellFunc.Function} row={row} name={row[cellFunc.name]} style={{overflowWrap: 'anywhere'}} />;
+    }
+    return <CellLink key={key} onClick={cellFunc.Function} row={row} name={row[cellFunc.name]} />;
+  }
+  if (typeof row[header] === 'boolean') {
+      const text = row[header] ? 'Yes' : 'No';
+      return (
+        <Box
+          key={key}
+          sx={{
+            backgroundColor: text === 'No' && greyColor,
+            padding: '5px 0px',
+            borderRadius: '5px',
+            textAlign: 'center'
+          }}
+        >
+        {text}
+      </Box>
+      );
+    }
+  if (!Array.isArray(row[header])) {
+    return <TableCell key={key} sx={{ overflowWrap: 'anywhere' }}>{row[header]}</TableCell>
+  }
+}
+
 export default function BasicTable({ headers, rows, setSelectedItem, cellFunc }) {
   if (!(rows?.length && rows?.length > 0)) {
     return null;
@@ -59,50 +102,6 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
     return theme.palette.mode === 'dark' ? theme.palette.grey['A700'] : theme.palette.grey['300'] ;
   };
 
-  function createCell(row, header) {
-    const key = `${row["name"]}${row[header]}`;
-    if (header === 'name') {
-      return null;
-    }
-    if (header === 'uri') {
-      return (
-        <>
-          <TableCell key={key}>
-            <Box sx={{ display:'flex', alignItems: 'center' }}>
-              <p style={{ overflowWrap: 'anywhere' }}>{row[header]}</p>
-              <CopyUriButton uri={row.URI} />
-            </Box>
-          </TableCell>
-        </>
-      );
-    }
-    if (cellFunc && cellFunc.name === header) {
-      if (header === 'url') { 
-        return <CellLink key={key} onClick={cellFunc.Function} row={row} name={row[cellFunc.name]} style={{overflowWrap: 'anywhere'}} />;
-      }
-      return <CellLink key={key} onClick={cellFunc.Function} row={row} name={row[cellFunc.name]} />;
-    }
-    if (typeof row[header] === 'boolean') {
-        const text = row[header] ? 'Yes' : 'No';
-        return (
-          <Box
-            key={key}
-            sx={{
-              backgroundColor: text === 'No' && greyColor,
-              padding: '5px 0px',
-              borderRadius: '5px',
-              textAlign: 'center'
-            }}
-          >
-          {text}
-        </Box>
-        );
-      }
-    if (!Array.isArray(row[header])) {
-      return <TableCell key={key} sx={{ overflowWrap: 'anywhere' }}>{row[header]}</TableCell>
-    }
-  }
-
   function makeReadableText(text) {
     // Make first letter capitalized
     const capitalized = `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
@@ -111,27 +110,34 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
     return words.join(' ');
   }
 
-
   return (
     <TableContainer component={Paper} >
       <Table aria-label="simple table">
         <TableHead>
           <TableRow sx={{ backgroundColor: greyColor }}>
             <TableCell>{"Name"}</TableCell>
-            {headers.map(title => <TableCell>{ makeReadableText(title) }</TableCell>)}
+            {headers.map(title => <TableCell key={title}>{ makeReadableText(title) }</TableCell>)}
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <>
+            <React.Fragment key={`fragment${row?.name}`}>
               <TableRow
-                key={row?.name || row?.id}
+                key={`row${row?.name || row?.id}`}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
               >
-                <CellLink onClick={setSelectedItem} row={row} name={row?.name ?? row?.id} />
-                {headers.map((header) => createCell(row, header))}
+                <CellLink key={`rowlink${row?.name}`} onClick={setSelectedItem} row={row} name={row?.name ?? row?.id} />
+                {headers.map((header) => (
+                  <CellContent
+                    key={`content${row[header]}`}
+                    row={row}
+                    header={header}
+                    cellFunc={cellFunc}
+                    greyColor={greyColor}
+                  />
+                ))}
               </TableRow>
-            </>
+            </React.Fragment>
           ))}
         </TableBody>
       </Table>

@@ -1,3 +1,4 @@
+import React from 'react';
 import TreeView from '@mui/lab/TreeView';
 import TreeItem from '@mui/lab/TreeItem';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -6,24 +7,26 @@ import ResizeableDrawer from './ResizeableDrawer';
 import Toolbar from '@mui/material/Toolbar';
 import Divider from '@mui/material/Divider';
 
+function Tree({ data, parents, setSelectedItem }) {
+  let label = data?.fullName ?? data.name;
+
+  return label && (
+    <TreeItem
+      key={label}
+      nodeId={label}
+      label={label}
+      onClick={() => {
+        setSelectedItem(data, [...parents, label])
+      }}
+    >
+      {Array.isArray(data?.data) && data.data.map((item) =>
+        <Tree key={item.name} data={item} parents={[...parents, label]} setSelectedItem={setSelectedItem} />
+      )}
+    </TreeItem>
+  );
+}
+
 export default function SideBar({ data, setSelectedItem }) {
-
-  function renderTree(data, parents) {
-    let label = data?.fullName ?? data.name;
-
-    return label && (
-      <TreeItem
-        key={label}
-        nodeId={label}
-        label={label}
-        onClick={() => {
-          setSelectedItem(data, [...parents, label])
-        }}
-      >
-        {Array.isArray(data?.data) && data.data.map((item) => renderTree(item, [...parents, label]))}
-      </TreeItem>
-    );
-  }
 
   return (
     <ResizeableDrawer>
@@ -36,14 +39,12 @@ export default function SideBar({ data, setSelectedItem }) {
         >
         {data.map((item, index) => {
           // Add a divider after the first two items
-          if (index === 4) {
-            return (
-              <>
-                <Divider key={"divider"} sx={{ marginTop: '10px', marginBottom: '10px' }} />
-                {renderTree(item, [])}
-              </>);
-          }
-          return renderTree(item, []);
+          return (
+            <React.Fragment key={`fragment${item.name}`}>
+              {index === 4 && <Divider key={`divider${item.name}`} sx={{ marginTop: '10px', marginBottom: '10px' }} />}
+              <Tree key={`${item.name}treeitem`} data={item} parents={[]} setSelectedItem={setSelectedItem} />
+            </React.Fragment>
+          );
         })}
         </TreeView>
     </ResizeableDrawer>

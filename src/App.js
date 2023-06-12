@@ -40,7 +40,7 @@ function App() {
   const [breadcrumbs, setBreadcrumbs] = React.useState([]);
   const [searchText, setSearchText] = React.useState(null);
   const [mode, toggleMode] = useColorMode();
-  console.log(data)
+
   function select(data, parents) {
     setBreadcrumbs(parents);
     setSelectedItem(data);
@@ -77,7 +77,7 @@ function App() {
       documentationData.map(item => search(searchResults, [...parents, item.name], item, string));
     }
     else if (typeof documentationData === 'object') {
-      const found = documentationData.name.toLowerCase().includes(string.toLowerCase());
+      const found = documentationData?.name?.toLowerCase().includes(string.toLowerCase());
       if (found) {
         searchResults.push({ data: documentationData, crumbs: parents });
       }

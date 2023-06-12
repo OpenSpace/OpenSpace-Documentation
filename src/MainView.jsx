@@ -233,7 +233,7 @@ export default function MainView({
         <Breadcrumbs aria-label={"breadcrumb"}>
           {breadcrumbs?.map((crumb, index) => {
             if (index === breadcrumbs.length - 1) {
-              return <Typography color={"text.primary"}>{crumb}</Typography>;
+              return <Typography key={`crumb${crumb}`} color={"text.primary"}>{crumb}</Typography>;
             }
             else {
               return (
@@ -245,6 +245,7 @@ export default function MainView({
                   }}
                   underline={"hover"} 
                   color={"inherit"}
+                  key={`crumblink${crumb}`}
                 >
                   {crumb}
                 </Link>
