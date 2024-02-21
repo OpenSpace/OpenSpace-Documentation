@@ -22,7 +22,7 @@ function Function({ data }) {
   return (
     <>
       <Typography variant={"body2"}>
-        { data.Help }
+        { data.help }
       </Typography>
       <Title>
         { "Function arguments" }
