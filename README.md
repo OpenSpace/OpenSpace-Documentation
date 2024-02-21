@@ -1,6 +1,6 @@
 # Setting up
 
-By default this repo comes with an empty placeholder for the data. If you want to use the data generated from OpenSpace while working with this repo, you can copy the `documentationData.js` file from `OpenSpace/documentation` after you have started OpenSpace at least once. This will generate a file with the assets loaded in that configuration.
+By default this repository comes with an empty placeholder for the data. If you want to use the data generated from OpenSpace while working with this repo, you can replace the `documentationData.js` file in the `public` folder with a file generated in `OpenSpace/documentation` after you have started OpenSpace at least once. This will generate a file with the assets loaded in that configuration.
 
 ## Available Scripts
 
