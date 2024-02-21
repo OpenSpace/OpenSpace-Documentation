@@ -77,7 +77,7 @@ function App() {
       documentationData.map(item => search(searchResults, [...parents, item.name], item, string));
     }
     else if (typeof documentationData === 'object') {
-      const found = documentationData?.name?.toLowerCase().includes(string.toLowerCase());
+      const found = documentationData?.name?.toLowerCase() === string.toLowerCase();
       if (found) {
         searchResults.push({ data: documentationData, crumbs: parents });
       }
