@@ -288,6 +288,7 @@ export default function MainView({
         { data?.author && <Profile data={data} />}
         { data?.uri && <Property data={data} />}
         { data?.keybindings && <Keybindings data={data.keybindings} />}
+        { data?.reference?.name && <Type setSelectedItem={setSelectedItem} searchAssetTypes={searchAssetTypes} type={data.reference.name} />}
       </Box>
       <Footer />
     </Box>
