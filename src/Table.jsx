@@ -60,7 +60,7 @@ function CellContent({ row, header, cellFunc, greyColor }) {
         <TableCell key={key}>
           <Box sx={{ display:'flex', alignItems: 'center' }}>
             <p style={{ overflowWrap: 'anywhere' }}>{row[header]}</p>
-            <CopyUriButton uri={row.URI} />
+            <CopyUriButton uri={row.uri} />
           </Box>
         </TableCell>
       </>
