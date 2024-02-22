@@ -168,6 +168,15 @@ function Profile({ data }) {
   );
 }
 
+function Action({ data }) {
+  return (
+    <Table
+      headers={["documentation", "guiName", "command"]}
+      rows={[data]}
+    />
+  );
+}
+
 function Type({ setSelectedItem, searchAssetTypes, type }) {
 
   function findAssetType(type) {
@@ -288,6 +297,8 @@ export default function MainView({
         { data?.author && <Profile data={data} />}
         { data?.uri && <Property data={data} />}
         { data?.keybindings && <Keybindings data={data.keybindings} />}
+        { data?.reference?.name && <Type setSelectedItem={setSelectedItem} searchAssetTypes={searchAssetTypes} type={data.reference.name} />}
+        { data?.command && <Action data={data} />}
       </Box>
       <Footer />
     </Box>
