@@ -256,7 +256,7 @@ export default function MainView({
         <Typography variant={"h4"} sx={{ padding: '20px 0'}}>
           { data?.name }
         </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '50px' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '50px', whiteSpace: 'pre-wrap' }}>
           { data?.description &&
             <Typography variant={"p"}>
               {data.description}
