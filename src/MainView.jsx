@@ -16,7 +16,7 @@ function Title({ children }) {
       {children}
     </Typography>
   );
-} 
+}
 
 function Function({ data }) {
   return (
@@ -138,7 +138,7 @@ function License({ data, setSelectedItem }) {
 }
 
 function LicenseAsset({ data }) {
-  
+
   return (
     <>
       <Title>
@@ -243,7 +243,7 @@ export default function MainView({
                   onClick={() => {
                     selectBreadcrumb(breadcrumbs.slice(0, index + 1));
                   }}
-                  underline={"hover"} 
+                  underline={"hover"}
                   color={"inherit"}
                   key={`crumblink${crumb}`}
                 >

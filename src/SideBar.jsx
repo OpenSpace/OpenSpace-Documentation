@@ -50,4 +50,3 @@ export default function SideBar({ data, setSelectedItem }) {
     </ResizeableDrawer>
   );
 }
-  

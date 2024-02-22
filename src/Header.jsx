@@ -63,7 +63,7 @@ function SearchCard({ data, crumbs, setSelectedItem }) {
           backgroundColor: (theme) => {
             return theme.palette.mode === 'dark' ?
               '#262424' :
-              theme.palette.grey['100'] 
+              theme.palette.grey['100']
           }
         }
       }}
@@ -88,7 +88,7 @@ function SearchCard({ data, crumbs, setSelectedItem }) {
   );
 }
 
-function Header({ searchDocumentation, searchSelectedItem, setSearchText, setSelectedItem, children }) { 
+function Header({ searchDocumentation, searchSelectedItem, setSearchText, setSelectedItem, children }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [searchResultsAll, setSearchResultsAll] = React.useState([]);
   const [searchResultsSelected, setSearchResultsSelected] = React.useState([]);
@@ -101,7 +101,7 @@ function Header({ searchDocumentation, searchSelectedItem, setSearchText, setSel
     setSearchResultsAll(searchDocumentation());
     setSearchResultsSelected(searchSelectedItem());
   }
-  
+
   function onFocus(event) {
     setAnchorEl(event.currentTarget);
   }
@@ -171,7 +171,7 @@ function Header({ searchDocumentation, searchSelectedItem, setSearchText, setSel
                   }}
                   disableAutoFocus={true}
                 >
-                  <Box sx={{ 
+                  <Box sx={{
                     width: 800,
                     height: 800,
                     display: 'flex',
@@ -200,7 +200,7 @@ function Header({ searchDocumentation, searchSelectedItem, setSearchText, setSel
                         )
                         : <Typography sx={{ p: 2 }}>
                           {"No results"}
-                        </Typography> 
+                        </Typography>
                       }
                     </Box>
                   </Box>
@@ -210,7 +210,7 @@ function Header({ searchDocumentation, searchSelectedItem, setSearchText, setSel
           </Box>
         </Toolbar>
       </AppBar>
-    </Box>      
+    </Box>
   );
 }
 

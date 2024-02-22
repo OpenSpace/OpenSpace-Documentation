@@ -40,7 +40,7 @@ function CopyUriButton({ uri }) {
         onClick={() => navigator.clipboard.writeText(uri)}
         sx={{
           marginLeft: '10px',
-          padding: '3px 10px', 
+          padding: '3px 10px',
           backgroundColor: color,
         }}
       >
@@ -67,7 +67,7 @@ function CellContent({ row, header, cellFunc, greyColor }) {
     );
   }
   if (cellFunc && cellFunc.name === header) {
-    if (header === 'url') { 
+    if (header === 'url') {
       return <CellLink key={key} onClick={cellFunc.Function} row={row} name={row[cellFunc.name]} style={{overflowWrap: 'anywhere'}} />;
     }
     return <CellLink key={key} onClick={cellFunc.Function} row={row} name={row[cellFunc.name]} />;

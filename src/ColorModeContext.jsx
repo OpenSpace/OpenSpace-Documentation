@@ -22,9 +22,9 @@ function useLocalStorageState(
       }
       return (typeof defaultValue === 'function') ? defaultValue() : defaultValue;
     })
-  
+
   const prevKeyRef = React.useRef(key);
-  
+
     // Check the example at src/examples/local-state-key-change.js to visualize a key change
   React.useEffect(() => {
     const prevKey = prevKeyRef.current;
@@ -34,13 +34,13 @@ function useLocalStorageState(
     prevKeyRef.current = key;
     window.localStorage.setItem(key, serialize(state));
   }, [key, state, serialize]);
-  
+
   return [state, setState];
 }
 
 function ColorModeProvider(props) {
   const [mode, setMode] = useLocalStorageState('colorMode', 'light');
-  
+
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
@@ -49,7 +49,7 @@ function ColorModeProvider(props) {
     }),
     [setMode],
   );
- 
+
   return <ColorModeContext.Provider value={[mode, colorMode.toggleColorMode]} {...props} />
 }
 function useColorMode() {
