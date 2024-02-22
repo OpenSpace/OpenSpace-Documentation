@@ -71,13 +71,19 @@ function App() {
     setBreadcrumbs(crumbs);
   }
 
-  function search(searchResults, parents, documentationData, string = searchText) {
+  function search(searchResults, parents, documentationData, string = searchText, exactMatch = false) {
     if (!string) return;
     if (Array.isArray(documentationData)) {
       documentationData.map(item => search(searchResults, [...parents, item.name], item, string));
     }
     else if (typeof documentationData === 'object') {
-      const found = documentationData?.name?.toLowerCase() === string.toLowerCase();
+      let found;
+      if (exactMatch) {
+        found = documentationData?.name?.toLowerCase() === string.toLowerCase();
+      }
+      else { // More including search
+        found = documentationData?.name?.toLowerCase().includes(string.toLowerCase());
+      }
       if (found) {
         searchResults.push({ data: documentationData, crumbs: parents });
       }
@@ -110,7 +116,8 @@ function App() {
   function searchAssetTypes(string) {
     let results = [];
     const assets = data.documentation.find(item => item.name === "Asset Types");
-    search(results, ["Asset Types"], assets, string);
+    const exactMatch = true;
+    search(results, ["Asset Types"], assets, string, exactMatch);
     return results[0];
   }
 
