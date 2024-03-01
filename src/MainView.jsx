@@ -177,6 +177,16 @@ function Action({ data }) {
   );
 }
 
+function Actions({ data }) {
+  return (
+    <Table
+      headers={["filters", "action"]}
+      rows={data}
+    />
+  );
+}
+
+
 function Type({ setSelectedItem, searchAssetTypes, type }) {
 
   function findAssetType(type) {
@@ -299,6 +309,7 @@ export default function MainView({
         { data?.keybindings && <Keybindings data={data.keybindings} />}
         { data?.reference?.name && <Type setSelectedItem={setSelectedItem} searchAssetTypes={searchAssetTypes} type={data.reference.name} />}
         { data?.command && <Action data={data} />}
+        { data?.actions && <Actions data={data.actions} />}
       </Box>
       <Footer />
     </Box>

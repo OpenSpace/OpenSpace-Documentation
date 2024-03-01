@@ -121,9 +121,9 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <React.Fragment key={`fragment${row?.name}`}>
+            <React.Fragment key={`fragment${row?.id || row?.name}`}>
               <TableRow
-                key={`row${row?.name || row?.id}`}
+                key={`row${row?.id || row?.name}`}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
               >
                 <CellLink key={`rowlink${row?.name}`} onClick={setSelectedItem} row={row} name={row?.name ?? row?.id} />
