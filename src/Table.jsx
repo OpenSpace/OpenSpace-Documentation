@@ -129,7 +129,7 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
                 <CellLink key={`rowlink${row?.name}`} onClick={setSelectedItem} row={row} name={row?.name ?? row?.id} />
                 {headers.map((header) => (
                   <CellContent
-                    key={`content${row[header]}`}
+                    key={`content${header}${row[header] || row?.id}`}
                     row={row}
                     header={header}
                     cellFunc={cellFunc}
