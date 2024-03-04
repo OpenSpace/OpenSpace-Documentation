@@ -146,7 +146,7 @@ function App() {
         >
           <ToggleMode />
         </Header>
-        <SideBar data={data.documentation} setSelectedItem={select} divider={DividerNumber}/>
+        <SideBar data={data.documentation} setSelectedItem={select} divider={DividerIndexPosition }/>
         <MainView
           data={selectedItem}
           setSelectedItem={select}
