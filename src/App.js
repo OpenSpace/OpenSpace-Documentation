@@ -40,7 +40,7 @@ function App() {
   const [breadcrumbs, setBreadcrumbs] = React.useState([]);
   const [searchText, setSearchText] = React.useState(null);
   const [mode, toggleMode] = useColorMode();
-  const DividerNumber = 5;
+  const DividerIndexPosition = 5;
 
   function select(data, parents) {
     setBreadcrumbs(parents);
