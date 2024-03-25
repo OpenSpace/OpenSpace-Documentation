@@ -26,7 +26,7 @@ function Tree({ data, parents, setSelectedItem }) {
   );
 }
 
-export default function SideBar({ data, setSelectedItem }) {
+export default function SideBar({ data, setSelectedItem, divider }) {
 
   return (
     <ResizeableDrawer>
@@ -38,10 +38,10 @@ export default function SideBar({ data, setSelectedItem }) {
           sx={{ height: '100%', flexGrow: 1, maxWidth: '100%', overflowY: 'auto', paddingTop : '20px', marginRight: '3px' }}
         >
         {data.map((item, index) => {
-          // Add a divider after the first two items
+          // Add a divider at the requested position
           return (
             <React.Fragment key={`fragment${item.name}`}>
-              {index === 4 && <Divider key={`divider${item.name}`} sx={{ marginTop: '10px', marginBottom: '10px' }} />}
+              {index === divider && <Divider key={`divider${item.name}`} sx={{ marginTop: '10px', marginBottom: '10px' }} />}
               <Tree key={`${item.name}treeitem`} data={item} parents={[]} setSelectedItem={setSelectedItem} />
             </React.Fragment>
           );
