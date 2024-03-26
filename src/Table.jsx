@@ -40,7 +40,7 @@ function CopyUriButton({ uri }) {
         onClick={() => navigator.clipboard.writeText(uri)}
         sx={{
           marginLeft: '10px',
-          padding: '3px 10px', 
+          padding: '3px 10px',
           backgroundColor: color,
         }}
       >
@@ -60,14 +60,14 @@ function CellContent({ row, header, cellFunc, greyColor }) {
         <TableCell key={key}>
           <Box sx={{ display:'flex', alignItems: 'center' }}>
             <p style={{ overflowWrap: 'anywhere' }}>{row[header]}</p>
-            <CopyUriButton uri={row.URI} />
+            <CopyUriButton uri={row.uri} />
           </Box>
         </TableCell>
       </>
     );
   }
   if (cellFunc && cellFunc.name === header) {
-    if (header === 'url') { 
+    if (header === 'url') {
       return <CellLink key={key} onClick={cellFunc.Function} row={row} name={row[cellFunc.name]} style={{overflowWrap: 'anywhere'}} />;
     }
     return <CellLink key={key} onClick={cellFunc.Function} row={row} name={row[cellFunc.name]} />;
@@ -121,15 +121,15 @@ export default function BasicTable({ headers, rows, setSelectedItem, cellFunc })
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <React.Fragment key={`fragment${row?.name}`}>
+            <React.Fragment key={`fragment${row?.id || row?.name}`}>
               <TableRow
-                key={`row${row?.name || row?.id}`}
+                key={`row${row?.id || row?.name}`}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 }}}
               >
                 <CellLink key={`rowlink${row?.name}`} onClick={setSelectedItem} row={row} name={row?.name ?? row?.id} />
                 {headers.map((header) => (
                   <CellContent
-                    key={`content${row[header]}`}
+                    key={`content${header}${row[header] || row?.id}`}
                     row={row}
                     header={header}
                     cellFunc={cellFunc}

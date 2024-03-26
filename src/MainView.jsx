@@ -16,7 +16,7 @@ function Title({ children }) {
       {children}
     </Typography>
   );
-} 
+}
 
 function Function({ data }) {
   return (
@@ -138,7 +138,7 @@ function License({ data, setSelectedItem }) {
 }
 
 function LicenseAsset({ data }) {
-  
+
   return (
     <>
       <Title>
@@ -167,6 +167,25 @@ function Profile({ data }) {
     </>
   );
 }
+
+function Action({ data }) {
+  return (
+    <Table
+      headers={["documentation", "guiName", "command"]}
+      rows={[data]}
+    />
+  );
+}
+
+function Actions({ data }) {
+  return (
+    <Table
+      headers={["filters", "action"]}
+      rows={data}
+    />
+  );
+}
+
 
 function Type({ setSelectedItem, searchAssetTypes, type }) {
 
@@ -243,7 +262,7 @@ export default function MainView({
                   onClick={() => {
                     selectBreadcrumb(breadcrumbs.slice(0, index + 1));
                   }}
-                  underline={"hover"} 
+                  underline={"hover"}
                   color={"inherit"}
                   key={`crumblink${crumb}`}
                 >
@@ -256,7 +275,7 @@ export default function MainView({
         <Typography variant={"h4"} sx={{ padding: '20px 0'}}>
           { data?.name }
         </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '50px' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '50px', whiteSpace: 'pre-wrap' }}>
           { data?.description &&
             <Typography variant={"p"}>
               {data.description}
@@ -289,6 +308,8 @@ export default function MainView({
         { data?.uri && <Property data={data} />}
         { data?.keybindings && <Keybindings data={data.keybindings} />}
         { data?.reference?.name && <Type setSelectedItem={setSelectedItem} searchAssetTypes={searchAssetTypes} type={data.reference.name} />}
+        { data?.command && <Action data={data} />}
+        { data?.actions && <Actions data={data.actions} />}
       </Box>
       <Footer />
     </Box>

@@ -40,6 +40,7 @@ function App() {
   const [breadcrumbs, setBreadcrumbs] = React.useState([]);
   const [searchText, setSearchText] = React.useState(null);
   const [mode, toggleMode] = useColorMode();
+  const DividerIndexPosition = 5;
 
   function select(data, parents) {
     setBreadcrumbs(parents);
@@ -152,7 +153,7 @@ function App() {
         >
           <ToggleMode />
         </Header>
-        <SideBar data={data.documentation} setSelectedItem={select} />
+        <SideBar data={data.documentation} setSelectedItem={select} divider={DividerIndexPosition }/>
         <MainView
           data={selectedItem}
           setSelectedItem={select}
