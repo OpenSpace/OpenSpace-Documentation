@@ -104,13 +104,13 @@ function Keybindings({ data }) {
   );
 }
 
-function Members({ data }) {
+function Members({ data, setSelectedItem }) {
   return (
     <>
       <Title>
         { "Class Members" }
       </Title>
-      <Table headers={["description", "documentation", "optional", "type"]} rows={data} />
+      <Table headers={["description", "documentation", "optional", "type"]} rows={data} setSelectedItem={setSelectedItem} />
     </>
   );
 }
